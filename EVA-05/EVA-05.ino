@@ -2,32 +2,24 @@
 #include "ThingSpeak.h"
 #include "secrets.h"
 #include "ESP8266WiFi.h"
-#include "DHT.h"
-
-#define DHTTYPE DHT22
 
 char ssid[] = SECRET_SSID;   
-char pass[] = SECRET_PASS;   
-int keyIndex = 0;            
+char pass[] = SECRET_PASS;            
 WiFiClient  client;
 unsigned long myChannelNumber = SECRET_CH_ID;
 const char * myWriteAPIKey = SECRET_WRITE_APIKEY;
-float t=0;
-float h=0; 
-const int DHTPin = 12; // DHT Sensor 12 = (D6)
-const int MagOutPin = 13;
-const int MagInPin = 15;
-int LDR = 0;
-int puerta;
 
-DHT dht(DHTPin, DHTTYPE); /////
+
+int analogChannel_000 = 0; //Canal 0; unico canal A/D.
+int sensorReading = 0;     //Lectura del sensor [0-1023].
+float tension = 0;         //Valor calculado.
+// Valores de calibracion obtenidos para
+// VdiodoProm=0.4915, R2=10.260, R1=21810, kpot=0.533
+float a = 0.245367927042692; 
+float b = 12.7432427082836;
 
 void setup() {
-  Serial.begin(115200);
-  dht.begin(); 
-  pinMode(MagOutPin, OUTPUT);
-  pinMode(MagInPin, INPUT_PULLUP);
-  digitalWrite(MagOutPin, LOW);         
+  Serial.begin(115200);     
   WiFi.mode(WIFI_STA); 
   ThingSpeak.begin(client);  // Initialize ThingSpeak
   
@@ -50,40 +42,17 @@ void loop() {
     Serial.println(WiFi.localIP());
   }
 
-  float t = dht.readTemperature();
-  // Hacemos pausa de tres segundos antes de cada nueva medición
-  //al sensor le cuesta 250ms leer estos datos
-  delay(3000);
-  float h = dht.readHumidity();
+  // A/D y calcular la tension
+    sensorReading = analogRead(analogChannel_000);
+    tension = float (sensorReading) * a + b;
+    if (tension < 15.0) { //El adc no puede medir tensiones inferiores a la constante b
+        tension = 0;
+    }
+    
+   Serial.println("Lectura Analogica: " + String(sensorReading));
+   Serial.println("Voltaje (V): " + String(tension));
 
-  if (isnan(h) || isnan(t)) {
-    Serial.println("Fallo en la lectura del sensor DHT!");
-    return;
-  }
-  Serial.println("Temperatura: " + String(t));
-  Serial.println("Humedad: " + String(h));
-
-  puerta = digitalRead(MagInPin);
-
-     Serial.println("Estado Puerta: " + String(puerta));
-
-
-  LDR = analogRead(A0);
-  float voltajeLDR = LDR * (3.3 / 1024.0);
-  float porcentajeLDR = voltajeLDR * 100 / 3.3;
-
-  Serial.println("Resistencia LDR: " + String(LDR));
-  Serial.println("Voltaje LDR: " + String(voltajeLDR));
-  Serial.println("% Iluminacion Ambiente: " + String(porcentajeLDR));
-  
-  ThingSpeak.setField(1, t);
-  ThingSpeak.setField(2, h);
-  ThingSpeak.setField(3, puerta);
-  ThingSpeak.setField(4, porcentajeLDR);
-  ThingSpeak.setField(5, voltajeLDR);
-  ThingSpeak.setField(6, LDR);
-  ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
-
+    
     // Create the TalkBack URI
   String tbURI = String("/talkbacks/") + String(myTalkBackID) + String("/commands/execute");
   // Create the message body for the POST out of the values
@@ -103,7 +72,7 @@ void loop() {
       if (newCommand == "RESTART") {
          Serial.println("Reiniciando...");
          ESP.restart();
-      }
+      }    
     }
     else {
       Serial.println("Nada Nuevo.");
@@ -113,9 +82,12 @@ void loop() {
   else {
     Serial.println("Problema checkeando cola. Codigo de error HTTP " + String(x));
   }
-  
 
-  delay(27000); // Wait 30 seconds to update the channel again  
+  ThingSpeak.setField(1, tension);
+  ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+  
+   delay(30000);
+
 }
 
 

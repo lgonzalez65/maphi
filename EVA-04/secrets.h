@@ -10,8 +10,8 @@
 #define SECRET_SSID "TATOOINE_AP_2G"
 #define SECRET_PASS "Luna2312"
 
-#define SECRET_CH_ID 774491			// replace 0000000 with your channel number
-#define SECRET_WRITE_APIKEY "M6MYEM85RNUWTDTY"   // replace XYZ with your channel write API Key
+#define SECRET_CH_ID 773580			// replace 0000000 with your channel number
+#define SECRET_WRITE_APIKEY "0G98N4QS4U5K6Y2S"   // replace XYZ with your channel write API Key
 
-#define myTalkBackID 32754  // ID TalkBack
-#define myTalkbackKey "1B1HKZOVFVFMZ6VD" // TallBack Key
+#define myTalkBackID 32703  // ID TalkBack
+#define myTalkbackKey "0EYD4QFCK6D4YJEE" // TallBack Key
