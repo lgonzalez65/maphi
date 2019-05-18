@@ -24,23 +24,23 @@
     var channelKeys = [];
     channelKeys.push({
       channelNumber: 767976, name: 'EVA01', key: 'AFVIOUID8HRV2QPB',
-      fieldList: [{ field: 1, axis: 'T' }, { field: 2, axis: 'T' }]
+      fieldList: [{ field: 1, axis: 'T' }, { field: 2, axis: 'H' }]
     });
     channelKeys.push({
       channelNumber: 767977, name: 'EVA02', key: '82CRJLA9J9JY41E7',
-      fieldList: [{ field: 1, axis: 'T' }, { field: 2, axis: 'T' }, { field: 3, axis: 'T' }, { field: 4, axis: 'T' }, { field: 5, axis: 'T' }, { field: 6, axis: 'T' }]
+      fieldList: [{ field: 1, axis: 'T' }, { field: 2, axis: 'H' }, { field: 3, axis: 'O' }, { field: 4, axis: 'I' }, { field: 5, axis: 'C' }, { field: 6, axis: 'V' }]
     });
     channelKeys.push({
       channelNumber: 767978, name: 'EVA03', key: '7MLZOIYMQOXBO3I3',
-      fieldList: [{ field: 1, axis: 'T' }, { field: 2, axis: 'T' }]
+      fieldList: [{ field: 1, axis: 'O' }, { field: 2, axis: 'O' }]
     });
     channelKeys.push({
       channelNumber: 773580, name: 'EVA04', key: 'VZUL9FI2B63SB4XS',
-      fieldList: [{ field: 1, axis: 'T' }]
+      fieldList: [{ field: 1, axis: 'O' }]
     });
     channelKeys.push({
       channelNumber: 774491, name: 'EVA05', key: 'FFKWWRSVJE2EL4ZW',
-      fieldList: [{ field: 1, axis: 'T' }]
+      fieldList: [{ field: 1, axis: 'O' }]
     });
 
     // user's timezone offset
@@ -249,8 +249,8 @@
           },
           tooltip: {
             valueDecimals: 1,
-            valueSuffix: '°F',
-            xDateFormat: '%Y-%m-%d<br/>%1:%M:%S %p'
+            valueSuffix: '°C',
+            xDateFormat: '%d-%m-%Y<br/>%1:%M:%S %p'
             // reformat the tooltips so that local times are displayed
             //formatter: function() {
             //var d = new Date(this.x + (myOffset*60000));
@@ -272,10 +272,38 @@
           },
           yAxis: [{
             title: {
-              text: 'Temperature °F'
+              text: 'Temperature °C'
             },
             id: 'T'
-          }, {
+          },{
+            title: {
+              text: 'Humidity %'
+            },
+            opposite: true,
+            id: 'H'
+          },
+          {
+            title: {
+              text: 'Ilumination %'
+            },
+            opposite: true,
+            id: 'I'
+          },
+           {
+            title: {
+              text: 'Current A'
+            },
+            opposite: true,
+            id: 'C'
+          },
+           {
+            title: {
+              text: 'Voltage V'
+            },
+            opposite: true,
+            id: 'V'
+          },
+           {
             title: {
               text: 'Other'
             },
