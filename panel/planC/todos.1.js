@@ -1,83 +1,63 @@
-import { Component, OnInit } from '@angular/core';
-import { StockChart } from 'angular-highcharts';
+var dynamicChart;
+var channelsLoaded = 0;
+var channelKeys = [];
+channelKeys.push({
+  channelNumber: 767976, name: 'EVA01', key: 'AFVIOUID8HRV2QPB',
+  fieldList: [{ field: 1, axis: 'T' }, { field: 2, axis: 'H' }]
+});
+channelKeys.push({
+  channelNumber: 767977, name: 'EVA02', key: '82CRJLA9J9JY41E7',
+  fieldList: [{ field: 1, axis: 'T' }, { field: 2, axis: 'H' }, { field: 3, axis: 'O' }, { field: 4, axis: 'I' }, { field: 5, axis: 'C' }, { field: 6, axis: 'V' }]
+});
+channelKeys.push({
+  channelNumber: 767978, name: 'EVA03', key: '7MLZOIYMQOXBO3I3',
+  fieldList: [{ field: 1, axis: 'O' }, { field: 2, axis: 'O' }]
+});
+channelKeys.push({
+  channelNumber: 773580, name: 'EVA04', key: 'VZUL9FI2B63SB4XS',
+  fieldList: [{ field: 1, axis: 'O' }]
+});
+channelKeys.push({
+  channelNumber: 774491, name: 'EVA05', key: 'FFKWWRSVJE2EL4ZW',
+  fieldList: [{ field: 1, axis: 'O' }]
+});
 
-@Component({
-  selector: 'app-temperatura',
-  templateUrl: './temperatura.component.html',
-  styleUrls: ['./temperatura.component.css']
-})
-export class TemperaturaComponent implements OnInit {
+var myOffset = new Date().getTimezoneOffset();
 
-public dynamicChart: any;
-public channelsLoaded = 0;
-public channelKeys=[];
-
-public myOffset = new Date().getTimezoneOffset();
-
-constructor() {
-  this.channelKeys.push({
-    channelNumber: 767976, name: 'EVA01', key: 'AFVIOUID8HRV2QPB',
-    fieldList: [{ field: 1, axis: 'T' }, { field: 2, axis: 'H' }]
-  });
-  /*
-  this.channelKeys.push({
-    channelNumber: 767977, name: 'EVA02', key: '82CRJLA9J9JY41E7',
-    fieldList: [{ field: 1, axis: 'T' }, { field: 2, axis: 'H' }, { field: 3, axis: 'O' }, { field: 4, axis: 'I' }, { field: 5, axis: 'C' }, { field: 6, axis: 'V' }]
-  });
-  this.channelKeys.push({
-    channelNumber: 767978, name: 'EVA03', key: '7MLZOIYMQOXBO3I3',
-    fieldList: [{ field: 1, axis: 'O' }, { field: 2, axis: 'O' }]
-  });
-  this.channelKeys.push({
-    channelNumber: 773580, name: 'EVA04', key: 'VZUL9FI2B63SB4XS',
-    fieldList: [{ field: 1, axis: 'O' }]
-  });
-  this.channelKeys.push({
-    channelNumber: 774491, name: 'EVA05', key: 'FFKWWRSVJE2EL4ZW',
-    fieldList: [{ field: 1, axis: 'O' }]
-  });
-  */
-
- }
-
-  ngOnInit() {
-    this.grafico();
-  }
-
-getChartDate(d) {
-  return Date.UTC(d.substring(0, 4), d.substring(5, 7) - 1, d.substring(8, 10), d.substring(11, 13), d.substring(14, 16), d.substring(17, 19)) - (this.myOffset * 60000);
+function getChartDate(d) {
+  return Date.UTC(d.substring(0, 4), d.substring(5, 7) - 1, d.substring(8, 10), d.substring(11, 13), d.substring(14, 16), d.substring(17, 19)) - (myOffset * 60000);
 }
- HideAll() {
-  for (var index = 0; index < this.dynamicChart.series.length; index++) {
-    if (this.dynamicChart.series[index].name == 'Navigator')
+function HideAll() {
+  for (var index = 0; index < dynamicChart.series.length; index++) {
+    if (dynamicChart.series[index].name == 'Navigator')
       continue;
-    this.dynamicChart.series[index].hide();
+    dynamicChart.series[index].hide();
   }
 }
 
-public grafico () {
-  let menu = document.getElementById("Channel Select");
-  for (let channelIndex = 0; channelIndex < this.channelKeys.length; channelIndex++) {
-    window.console && console.log('Name', this.channelKeys[channelIndex].name);
-    let menuOption = new Option(this.channelKeys[channelIndex].name, channelIndex.toString());
-    //menu.options.add(menuOption, channelIndex);
+$(document).ready(function () {
+  var menu = document.getElementById("Channel Select");
+  for (var channelIndex = 0; channelIndex < channelKeys.length; channelIndex++) {
+    window.console && console.log('Name', channelKeys[channelIndex].name);
+    var menuOption = new Option(channelKeys[channelIndex].name, channelIndex);
+    menu.options.add(menuOption, channelIndex);
   }
   var last_date;
   window.console && console.log('Testing console');
   var seriesCounter = 0
-  for (let channelIndex = 0; channelIndex < this.channelKeys.length; channelIndex++)  // iterate through each channel
+  for (var channelIndex = 0; channelIndex < channelKeys.length; channelIndex++)  // iterate through each channel
   {
-    for (let fieldIndex = 0; fieldIndex < this.channelKeys[channelIndex].fieldList.length; fieldIndex++)  // iterate through each channel
+    for (var fieldIndex = 0; fieldIndex < channelKeys[channelIndex].fieldList.length; fieldIndex++)  // iterate through each channel
     {
-      this.channelKeys[channelIndex].fieldList[fieldIndex].series = seriesCounter;
+      channelKeys[channelIndex].fieldList[fieldIndex].series = seriesCounter;
       seriesCounter++;
     }
   }
 
-  for (var channelIndex = 0; channelIndex < this.channelKeys.length; channelIndex++)  // iterate through each channel
+  for (var channelIndex = 0; channelIndex < channelKeys.length; channelIndex++)  // iterate through each channel
   {
-    this.channelKeys[channelIndex].loaded = false;
-    loadThingSpeakChannel(channelIndex, this.channelKeys[channelIndex].channelNumber, this.channelKeys[channelIndex].key, this.channelKeys[channelIndex].fieldList);
+    channelKeys[channelIndex].loaded = false;
+    loadThingSpeakChannel(channelIndex, channelKeys[channelIndex].channelNumber, channelKeys[channelIndex].key, channelKeys[channelIndex].fieldList);
 
   }
 
@@ -97,19 +77,19 @@ public grafico () {
           var p = []//new Highcharts.Point();
           var fieldStr = "data.feeds[" + h + "].field" + fieldList[fieldIndex].field;
           var v = eval(fieldStr);
-          p[0] = this.getChartDate(data.feeds[h].created_at);
+          p[0] = getChartDate(data.feeds[h].created_at);
           p[1] = parseFloat(v);
           if (!isNaN(parseInt(v))) { fieldList[fieldIndex].data.push(p); }
         }
         fieldList[fieldIndex].name = eval("data.channel.field" + fieldList[fieldIndex].field);
       }
       window.console && console.log('getJSON field name:', fieldList[0].name);
-      this.channelKeys[channelIndex].fieldList = fieldList;
-      this.channelKeys[channelIndex].loaded = true;
-      this.channelsLoaded++;
-      window.console && console.log('channels Loaded:', this.channelsLoaded);
+      channelKeys[channelIndex].fieldList = fieldList;
+      channelKeys[channelIndex].loaded = true;
+      channelsLoaded++;
+      window.console && console.log('channels Loaded:', channelsLoaded);
       window.console && console.log('channel index:', channelIndex);
-      if (this.channelsLoaded == this.channelKeys.length) { createChart(); }
+      if (channelsLoaded == channelKeys.length) { createChart(); }
     })
       .fail(function () { alert('getJSON request failed! '); });
   }
@@ -127,28 +107,28 @@ public grafico () {
             if ('true' === 'true' && (''.length < 1 && ''.length < 1 && ''.length < 1 && ''.length < 1 && ''.length < 1)) {
 
               setInterval(function () {
-                //if (document.getElementById("Update").checked) {
-                  for (var channelIndex = 0; channelIndex < this.channelKeys.length; channelIndex++)  // iterate through each channel
+                if (document.getElementById("Update").checked) {
+                  for (var channelIndex = 0; channelIndex < channelKeys.length; channelIndex++)  // iterate through each channel
                   {
                     (function (channelIndex) {
 
-                      $.getJSON('https://www.thingspeak.com/channels/' + this.channelKeys[channelIndex].channelNumber + '/feed/last.json?callback=?&amp;offset=0&amp;location=false;key=' + this.channelKeys[channelIndex].key, function (data) {
-                        for (var fieldIndex = 0; fieldIndex < this.channelKeys[channelIndex].fieldList.length; fieldIndex++) {
+                      $.getJSON('https://www.thingspeak.com/channels/' + channelKeys[channelIndex].channelNumber + '/feed/last.json?callback=?&amp;offset=0&amp;location=false;key=' + channelKeys[channelIndex].key, function (data) {
+                        for (var fieldIndex = 0; fieldIndex < channelKeys[channelIndex].fieldList.length; fieldIndex++) {
 
-                          var fieldStr = "data.field" + this.channelKeys[channelIndex].fieldList[fieldIndex].field;
-                          var chartSeriesIndex = this.channelKeys[channelIndex].fieldList[fieldIndex].series;
+                          var fieldStr = "data.field" + channelKeys[channelIndex].fieldList[fieldIndex].field;
+                          var chartSeriesIndex = channelKeys[channelIndex].fieldList[fieldIndex].series;
                           if (data && eval(fieldStr)) {
                             var p = []
                             var v = eval(fieldStr);
-                            p[0] = this.getChartDate(data.created_at);
+                            p[0] = getChartDate(data.created_at);
                             p[1] = parseFloat(v);
 
-                            if (this.dynamicChart.series[chartSeriesIndex].data.length > 0) {
-                              last_date =this.dynamicChart.series[chartSeriesIndex].data[this.dynamicChart.series[chartSeriesIndex].data.length - 1].x;
+                            if (dynamicChart.series[chartSeriesIndex].data.length > 0) {
+                              last_date = dynamicChart.series[chartSeriesIndex].data[dynamicChart.series[chartSeriesIndex].data.length - 1].x;
                             }
                             var shift = false;
                             if (!isNaN(parseInt(v)) && (p[0] != last_date)) {
-                             this.dynamicChart.series[chartSeriesIndex].addPoint(p, true, shift);
+                              dynamicChart.series[chartSeriesIndex].addPoint(p, true, shift);
                             }
                           }
 
@@ -158,7 +138,7 @@ public grafico () {
                       });
                     })(channelIndex);
                   }
-                //}
+                }
               }, 15000);
             }
           }
@@ -223,7 +203,7 @@ public grafico () {
       xAxis: {
         type: 'datetime',
         ordinal: false,
-        min: Date.UTC(2013, 2, 28),
+        min: Date.UTC(2013, 02, 28),
         dateTimeLabelFormats: {
           hour: '%l %p',
           minute: '%l:%M %p'
@@ -292,17 +272,17 @@ public grafico () {
     };
 
 
-    for (var channelIndex = 0; channelIndex < this.channelKeys.length; channelIndex++)  // iterate through each channel
+    for (var channelIndex = 0; channelIndex < channelKeys.length; channelIndex++)  // iterate through each channel
     {
-      for (var fieldIndex = 0; fieldIndex < this.channelKeys[channelIndex].fieldList.length; fieldIndex++)  // add each field
+      for (var fieldIndex = 0; fieldIndex < channelKeys[channelIndex].fieldList.length; fieldIndex++)  // add each field
       {
         window.console && console.log('Channel ' + channelIndex + ' field ' + fieldIndex);
         chartOptions.series.push({
-          data: this.channelKeys[channelIndex].fieldList[fieldIndex].data,
-          index: this.channelKeys[channelIndex].fieldList[fieldIndex].series,
-          yAxis: this.channelKeys[channelIndex].fieldList[fieldIndex].axis,
+          data: channelKeys[channelIndex].fieldList[fieldIndex].data,
+          index: channelKeys[channelIndex].fieldList[fieldIndex].series,
+          yAxis: channelKeys[channelIndex].fieldList[fieldIndex].axis,
 
-          name: this.channelKeys[channelIndex].fieldList[fieldIndex].name
+          name: channelKeys[channelIndex].fieldList[fieldIndex].name
         });
       }
     }
@@ -310,43 +290,43 @@ public grafico () {
     chartOptions.xAxis.title.text = 'Date';
 
 
-   this.dynamicChart = new StockChart();
-    this.dynamicChart.options = chartOptions;
+    dynamicChart = new Highcharts.StockChart(chartOptions);
 
-    for (var channelIndex = 0; channelIndex < this.channelKeys.length; channelIndex++)  // iterate through each channel
+
+    for (var channelIndex = 0; channelIndex < channelKeys.length; channelIndex++)  // iterate through each channel
     {
-      for (var fieldIndex = 0; fieldIndex < this.channelKeys[channelIndex].fieldList.length; fieldIndex++)  // and each field
+      for (var fieldIndex = 0; fieldIndex < channelKeys[channelIndex].fieldList.length; fieldIndex++)  // and each field
       {
-        for (var seriesIndex = 0; seriesIndex <this.dynamicChart.series.length; seriesIndex++)  // compare each series name
+        for (var seriesIndex = 0; seriesIndex < dynamicChart.series.length; seriesIndex++)  // compare each series name
         {
-          if (this.dynamicChart.series[seriesIndex].name == this.channelKeys[channelIndex].fieldList[fieldIndex].name) {
-            this.channelKeys[channelIndex].fieldList[fieldIndex].series = seriesIndex;
+          if (dynamicChart.series[seriesIndex].name == channelKeys[channelIndex].fieldList[fieldIndex].name) {
+            channelKeys[channelIndex].fieldList[fieldIndex].series = seriesIndex;
           }
         }
       }
     }
 
-    window.console && console.log('Channels: ', this.channelKeys.length);
-    for (var channelIndex = 0; channelIndex < this.channelKeys.length; channelIndex++)  // iterate through each channel
+    window.console && console.log('Channels: ', channelKeys.length);
+    for (var channelIndex = 0; channelIndex < channelKeys.length; channelIndex++)  // iterate through each channel
     {
       window.console && console.log('channelIndex: ', channelIndex);
       (function (channelIndex) {
 
-        this.loadChannelHistory(channelIndex, this.channelKeys[channelIndex].channelNumber, this.channelKeys[channelIndex].key, this.channelKeys[channelIndex].fieldList, 0, 1);
+        loadChannelHistory(channelIndex, channelKeys[channelIndex].channelNumber, channelKeys[channelIndex].key, channelKeys[channelIndex].fieldList, 0, 1);
       }
       )(channelIndex);
     }
   }
+});
+
+function loadOneChannel() {
+  var selectedChannel = document.getElementById("Channel Select");
+  var maxLoads = document.getElementById("Loads").value;
+  var channelIndex = selectedChannel.selectedIndex;
+  loadChannelHistory(channelIndex, channelKeys[channelIndex].channelNumber, channelKeys[channelIndex].key, channelKeys[channelIndex].fieldList, 0, maxLoads);
 }
 
-loadOneChannel() {
- // let selectedChannel = document.getElementById("Channel Select");
-  //let maxLoads = document.getElementById("Loads").value;
- // let channelIndex = selectedChannel.index ;
-  //this.loadChannelHistory(channelIndex, this.channelKeys[channelIndex].channelNumber, this.channelKeys[channelIndex].key, this.channelKeys[channelIndex].fieldList, 0, maxLoads);
-}
-
- loadChannelHistory(sentChannelIndex, channelNumber, key, sentFieldList, sentNumLoads, maxLoads) {
+function loadChannelHistory(sentChannelIndex, channelNumber, key, sentFieldList, sentNumLoads, maxLoads) {
   var numLoads = sentNumLoads
   var fieldList = sentFieldList;
   var channelIndex = sentChannelIndex;
@@ -373,23 +353,18 @@ loadOneChannel() {
         var p = []
         var fieldStr = "data.feeds[" + h + "].field" + fieldList[fieldIndex].field;
         var v = eval(fieldStr);
-        p[0] = this.getChartDate(data.feeds[h].created_at);
+        p[0] = getChartDate(data.feeds[h].created_at);
         p[1] = parseFloat(v);
         if (!isNaN(parseInt(v))) { fieldList[fieldIndex].data.push(p); }
       }
       fieldList[fieldIndex].data.sort(function (a, b) { return a[0] - b[0] });
-     this.dynamicChart.series[fieldList[fieldIndex].series].setData(fieldList[fieldIndex].data, false);
+      dynamicChart.series[fieldList[fieldIndex].series].setData(fieldList[fieldIndex].data, false);
 
     }
-    this.channelKeys[channelIndex].fieldList = fieldList;
-   this.dynamicChart.redraw()
+    channelKeys[channelIndex].fieldList = fieldList;
+    dynamicChart.redraw()
     window.console && console.log('channel index:', channelIndex);
     numLoads++;
-    if (numLoads < maxLoads) { this.loadChannelHistory(channelIndex, channelNumber, key, fieldList, numLoads, maxLoads); }
+    if (numLoads < maxLoads) { loadChannelHistory(channelIndex, channelNumber, key, fieldList, numLoads, maxLoads); }
   });
-}
-
-
-
-
 }
