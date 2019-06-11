@@ -7,8 +7,12 @@
 //#define SECRET_SSID "CAMPUS"    // replace MySSID with your WiFi network name
 //#define SECRET_PASS "CAMPUSUARG"  // replace MyPassword with your WiFi password
 
-#define SECRET_SSID "TATOOINE_AP_2G"
-#define SECRET_PASS "Luna2312"
+//#define SECRET_SSID "TATOOINE_AP_2G"
+//#define SECRET_PASS "Luna2312"
+
+#define SECRET_SSID "MAPHI"
+#define SECRET_PASS "unpauarg"
+
 
 #define SECRET_CH_ID 767976			// replace 0000000 with your channel number
 #define SECRET_WRITE_APIKEY "JX521VRQMSV670JJ"   // replace XYZ with your channel write API Key

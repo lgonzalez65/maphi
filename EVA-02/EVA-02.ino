@@ -15,10 +15,10 @@ const char * myWriteAPIKey = SECRET_WRITE_APIKEY;
 float t=0;
 float h=0; 
 const int DHTPin = 12; // DHT Sensor 12 = (D6)
-const int MagOutPin = 13;
-const int MagInPin = 15;
+int MagOutPin = 13; //D7
+int MagInPin = 15; //D8
 int LDR = 0;
-int puerta;
+bool puerta;
 
 DHT dht(DHTPin, DHTTYPE); /////
 
@@ -27,7 +27,7 @@ void setup() {
   dht.begin(); 
   pinMode(MagOutPin, OUTPUT);
   pinMode(MagInPin, INPUT_PULLUP);
-  digitalWrite(MagOutPin, LOW);         
+  digitalWrite(MagOutPin, HIGH);         
   WiFi.mode(WIFI_STA); 
   ThingSpeak.begin(client);  // Initialize ThingSpeak
   
@@ -65,7 +65,7 @@ void loop() {
 
   puerta = digitalRead(MagInPin);
 
-     Serial.println("Estado Puerta: " + String(puerta));
+  Serial.println("Estado Puerta: " + String(puerta));
 
 
   LDR = analogRead(A0);
