@@ -45,7 +45,7 @@ function loadOnePoint6(channelNumber, key, sentFieldList) {
         var v = eval(fieldStr);
 
         //p[0] = getChartDate(data.feeds[h].created_at);
-        if (parseInt(v) == 0) {
+        if (parseInt(v) == 1) {
           estadoPuerta = 'ABIERTA';
         }
         else {
@@ -53,7 +53,7 @@ function loadOnePoint6(channelNumber, key, sentFieldList) {
         }
        
         //document.querySelector('.estadoPuerta').innerHTML = "EVA-02: "+estadoPuerta;
-        document.querySelector('.EstadoPuerta').innerHTML = estadoPuerta.toString;
+        document.querySelector('.EstadoPuerta').innerHTML = estadoPuerta;
         // if a numerical value exists add it
 
   })

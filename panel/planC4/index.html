@@ -42,7 +42,7 @@
             </div>
             <div class="col-4">
                 <figure class="item">
-                    <img src="images/argentina.png" height="160px" />
+                    <img src="images/argentina.png" height="130px" />
 
                 </figure>
             </div>
@@ -195,12 +195,14 @@
                     <div class="col-12 row card-body" style="padding-left: 0; padding-right: 0; margin-left:0px; margin-right: 0px; text-align: center;    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); 
                         border-radius: 4px;  ">
                         <h3 class="col-12 card-title"><i class="fas fa-door-open"> Puerta</i></h3>
-                        <div class="col-12" id="EstadoPuerta" style="text-align: center;">EVA-02
-                            <!--<div class="spinner-border text-dark" role="status">
+                        <div class="col-12" style="text-align: center;">EVA-02<H4>
+                                <div class="card-text EstadoPuerta">
+                                    <div class="spinner-border text-white" role="status">
 
-                                <span class="sr-only">Loading...</span>
-                            </div>-->
-                            <H4>CERRADA</H4>
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            </H4>
                         </div>
                     </div>
                 </div>
@@ -212,7 +214,7 @@
                 <div class="row col-md-12 col-xs-12" style="height: 50%;">
                     <div class="col-md-6 col-xs-12" style="height: 50%; text-align: center; ">
                         <div class='btn-danger h4' style="box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); 
-                        border-radius: 4px; "><i class="fas fa-thermometer-half" > Temperatura</i></div>
+                        border-radius: 4px; "><i class="fas fa-thermometer-half"> Temperatura</i></div>
                         <div id="chart-container">
                             <div class="spinner-border text-dark" role="status">
 
@@ -221,7 +223,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-xs-12" style="height: 50%; text-align: center;">
-                        <div class='btn-primary h4'style="box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); 
+                        <div class='btn-primary h4' style="box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); 
                         border-radius: 4px; "><i class="fas fa-tint"> Humedad Relativa</i></div>
                         <div id="chart-container2">
                             <div class="spinner-border text-dark" role="status">
@@ -276,7 +278,7 @@
             window.onload = corriente();
             window.onload = tension();
             window.onload = iluminacion();
-            //   window.onload = estadoPuerta();
+            window.onload = estadoPuerta();
 
             setInterval(function () {
                 location.reload();
