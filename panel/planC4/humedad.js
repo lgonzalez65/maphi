@@ -65,7 +65,7 @@ function humedad() {
     channelKeys2[channelIndex].loaded = false;
 
     loadThingSpeakChannel2(channelIndex, channelKeys2[channelIndex].channelNumber, channelKeys2[channelIndex].key, channelKeys2[channelIndex].fieldList);
-    loadOnePoint2(channelKeys2[channelIndex].channelNumber, channelKeys2[channelIndex].key, channelKeys2[channelIndex].fieldList);
+    loadOnePoint2(channelIndex,channelKeys2[channelIndex].channelNumber, channelKeys2[channelIndex].key, channelKeys2[channelIndex].fieldList);
 
   }
   //window.console && console.log('Channel Keys',channelKeys2);
@@ -155,11 +155,11 @@ function createChart2() {
         type: 'all',
         text: 'Todo'
       }],
-      inputEnabled: true,
+      inputEnabled: false,
       selected: 0
     },
     title: {
-      text: 'HUMEDAD RELATIVA',
+      //text: 'HUMEDAD RELATIVA',
       style: {
         color: '#000000',
         fontWeight: 'bold'
@@ -208,7 +208,7 @@ function createChart2() {
       id: 'H'
     }],
     exporting: {
-      enabled: true,
+      enabled: false,
       csv: {
         dateFormat: '%d/%m/%Y %I:%M:%S %p'
       }
@@ -217,6 +217,7 @@ function createChart2() {
       enabled: true
     },
     navigator: {
+      enabled: false,
       baseSeries: 0,  //select which series to show in history navigator, First series is 0
       series: {
         includeInCSVExport: false
@@ -267,7 +268,7 @@ function createChart2() {
 
 }
 
-function loadOnePoint2(channelNumber, key, sentFieldList) {
+function loadOnePoint2(channelIndex, channelNumber, key, sentFieldList) {
 
   var fieldList = sentFieldList;
   // get the Channel data with a webservice call
@@ -285,8 +286,9 @@ function loadOnePoint2(channelNumber, key, sentFieldList) {
         var fieldStr = "data.feeds[" + h + "].field" + fieldList[fieldIndex].field;
         var v = eval(fieldStr);
         p[0] = getChartDate(data.feeds[h].created_at);
-        humedadActual[channelNumber] = parseFloat(v);
-        document.querySelector('.HumedadActual'+channelNumber).innerHTML = humedadActual[channelNumber];
+        humedadActual[channelNumber] = (parseFloat(v)).toFixed(2);
+       // document.querySelector('.HumedadActual'+channelNumber).innerHTML = "EVA-0"+(channelIndex+1)+": "+humedadActual[channelNumber];
+       document.querySelector('.HumedadActual'+channelNumber).innerHTML = humedadActual[channelNumber]+"%";
         // if a numerical value exists add it
       }
 

@@ -8,89 +8,280 @@
      type="text/javascript"></script>-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/adaef0a336.js"></script>
     <script src="http://code.highcharts.com/stock/highstock.js"></script>
     <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
     <!--<script src="https://rawgithub.com/highslide-software/export-csv/master/export-csv.js"></script>-->
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script src="temperatura.js"></script>
     <script src="humedad.js"></script>
     <script src="corriente.js"></script>
     <script src="tension.js"></script>
     <script src="iluminacion.js"></script>
+    <script src="puerta.js"></script>
 
     <title>ThingSpeakMultichannel</title>
 </head>
 
 <body style="background-color: white;">
-    <div class="row" style="margin-left: auto;
+    <div class="row" style=" margin-left: auto;
     margin-right: auto; padding-top: 10px;">
-        <img style="display:block; margin-left:auto; margin-right:auto;" src="images/inta1.jpg" height="130px">
-        <img style="display:block; margin-left:auto; margin-right:auto;" src="images/Logo-UNPA-UARG-azul.png"
-            height="130px">
-        <div style="text-align: center">
-            <!-- <h1 style="font-size: 30vh;padding:0;margin:0;"><b>MAPHI</b></h1>
-            M&oacute;dulo Ant&aacute;rtico de Producci&oacute;n Hidrop&oacute;nica<br/>-->
-            <img src="images/argentina.png" height="130px;">
-        </div>
-        <img style="display:block; margin-left:auto; margin-right:auto;" src="images/LogoEstadoMayor.jpeg"
-            height="130px">
-        <img style="display:block; margin-left:auto; margin-right:auto;" src="images/marambio.jpg" height="130px">
-    </div>
-    <hr>
-    <div class="row col-md-12 col-xs-12">
+        <div class="row col-12" style="padding-bottom:10px; text-align: center; margin-left: auto; margin-right: auto;">
+            <div class="col-2">
+                <figure class="item">
+                    <img src="images/inta2.jpg" height="130px" />
+                    <figcaption class="caption">Instituto Nacional de Tecnología Agropecuaria</figcaption>
+                </figure>
+            </div>
+            <div class="col-2">
+                <figure class="item">
+                    <img src="images/Logo-UNPA-UARG-azul.png" height="130px" />
+                    <figcaption class="caption">PI 29/A425-1</figcaption>
+                </figure>
+            </div>
+            <div class="col-4">
+                <figure class="item">
+                    <img src="images/argentina.png" height="160px" />
 
-        <div class="col-md-1 col-xs-12">
-            <div class="TemperaturaActual767976">&nbsp;</div>
-            <div class="TemperaturaActual767977">&nbsp;</div>
-            <div class="HumedadActual767976">&nbsp;</div>
-            <div class="HumedadActual767977">&nbsp;</div>
-            <div class="CorrienteActual">&nbsp;</div>
-            <div class="TensionActual">&nbsp;</div>
-            <div class="IluminacionActual">&nbsp;</div>
+                </figure>
+            </div>
+            <div class="col-2">
+                <figure class="item">
+                    <img src="images/LogoEstadoMayor.jpeg" height="130px" />
+                    <figcaption class="caption">Comando Conjunto Antártico</figcaption>
+                </figure>
+            </div>
+            <div class="col-2">
+                <figure class="item">
+                    <img src="images/LogoMarambio.jpeg" height="130px" />
+                    <figcaption class="caption">Base Marambio</figcaption>
+                </figure>
+            </div>
+
+
+
         </div>
-        <div class=" col-md-11 col-xs-12">
-            <div class="row col-md-12 col-xs-12" style="height: 50%;">
-                <div class="col-md-6 col-xs-12" style="height: 50%;">
-                    <div id="chart-container"><br>
-                        Cargando datos...<br>
+        <div class="row col-md-12 col-xs-12">
+            <div class="col-md-2 col-xs-12">
+                <div class="card text-white bg-danger mb-3" style="padding-left: 0; padding-right: 0; text-align: center;     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); 
+                    border-radius: 4px;  ">
+                    <div class="col-12 row card-body"
+                        style="padding-left: 0; padding-right: 0; margin-left:0px; margin-right: 0px; text-align: center; ">
+                        <h3 class="col-12 card-title"><i class="fas fa-thermometer-half"> Temperatura</i>
+                        </h3>
+                        <div class="col-6">EVA-01<h4>
+                                <div class="card-text TemperaturaActual767976">
+                                    <div class="spinner-border text-light" role="status">
+
+                                        <span class="sr-only ">Loading...</span>
+                                    </div>
+                                </div>
+                            </h4>
+                        </div>
+                        <div class="col-6">EVA-02<h4>
+                                <div class="card-text TemperaturaActual767977">
+                                    <div class="spinner-border text-light" role="status">
+
+                                        <span class="sr-only ">Loading...</span>
+                                    </div>
+                                </div>
+                            </h4>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="card text-white bg-primary mb-3" style="padding-left: 0; padding-right: 0; text-align: center;     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); 
+                    border-radius: 4px;  ">
+                    <div class="col-12 row card-body"
+                        style="padding-left: 0; padding-right: 0; margin-left:0px; margin-right: 0px; text-align: center; ">
+                        <h3 class="col-12 card-title"><i class="fas fa-tint"> Humedad</i></h3>
+                        <div class="col-6">EVA-01<h4>
+                                <div class="card-text HumedadActual767976">
+                                    <div class="spinner-border text-light" role="status">
+
+                                        <span class="sr-only ">Loading...</span>
+                                    </div>
+                                </div>
+                            </h4>
+                        </div>
+                        <div class="col-6">EVA-02<h4>
+                                <div class="card-text HumedadActual767977">
+                                    <div class="spinner-border text-light" role="status">
+
+                                        <span class="sr-only ">Loading...</span>
+                                    </div>
+                                </div>
+                            </h4>
+                        </div>
+
                     </div>
                 </div>
-                <div class="col-md-6 col-xs-12" style="height: 50%;">
-                    <div id="chart-container2"><br>
-                        Cargando datos...<br>
+
+                <div class="card text-white  mb-3" style="padding-left: 0; padding-right: 0; text-align: center; background-color: darkslategray;     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); 
+                    border-radius: 4px;  ">
+                    <div class="col-12 row card-body"
+                        style="padding-left: 0; padding-right: 0; margin-left:0px; margin-right: 0px; text-align: center; ">
+                        <h3 class="col-12 card-title"><i class="fas fa-bolt"> Consumo</i></h3>
+                        <div class="col-12">EVA-04<h4>
+                                <div class="card-text CorrienteActual">
+                                    <div class="spinner-border text-light" role="status">
+
+                                        <span class="sr-only ">Loading...</span>
+                                    </div>
+                                </div>
+                            </h4>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="card text-white bg-success mb-3"
+                    style="padding-left: 0; padding-right: 0; text-align: center; ">
+                    <div class="col-12 row card-body" style="padding-left: 0; padding-right: 0; margin-left:0px; margin-right: 0px; text-align: center;     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); 
+                        border-radius: 4px;  ">
+                        <h3 class="col-12 card-title"><i class="fas fa-chart-line"> Tensión</i></h3>
+                        <div class="col-12">EVA-05<h4>
+                                <div class="card-text TensionActual">
+                                    <div class="spinner-border text-light" role="status">
+
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            </h4>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card text-dark bg-warning mb-3"
+                    style="padding-left: 0; padding-right: 0; text-align: center; ">
+                    <div class="col-12 row card-body" style="padding-left: 0; padding-right: 0; margin-left:0px; margin-right: 0px; text-align: center;     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); 
+                        border-radius: 4px;  ">
+                        <h3 class="col-12 card-title"><i class="far fa-lightbulb"> Iluminación</i></h3>
+                        <div class="col-12">EVA-02<h4>
+                                <div class="card-text IluminacionActual">
+                                    <div class="spinner-border text-dark" role="status">
+
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            </h4>
+                        </div>
+                        <!--<div class="col-12">EVA-03</div>
+                        <div class="col-6">Llave 1
+                            <input id="toggle-one" checked type="checkbox">
+                            <script>
+                                $(function () {
+                                    $('#toggle-one').bootstrapToggle();
+                                })
+                            </script>
+                        </div>
+                        <div class="col-6">Llave 2
+                            <input id="toggle-two" checked type="checkbox">
+                            <script>
+                                $(function () {
+                                    $('#toggle-two').bootstrapToggle();
+                                })
+                            </script>
+                        </div>
+-->
+                    </div>
+                </div>
+                <div class="card text-white bg-success mb-3"
+                    style="padding-left: 0; padding-right: 0; text-align: center; ">
+                    <div class="col-12 row card-body" style="padding-left: 0; padding-right: 0; margin-left:0px; margin-right: 0px; text-align: center;    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); 
+                        border-radius: 4px;  ">
+                        <h3 class="col-12 card-title"><i class="fas fa-door-open"> Puerta</i></h3>
+                        <div class="col-12" id="EstadoPuerta" style="text-align: center;">EVA-02
+                            <!--<div class="spinner-border text-dark" role="status">
+
+                                <span class="sr-only">Loading...</span>
+                            </div>-->
+                            <H4>CERRADA</H4>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="row col-md-12 col-xs-12" style="height: 50%;">
-                <div class="col-md-4 col-xs-12" style="height: 25%;">
-                    <div id="chart-container3"><br>
-                        Cargando datos...<br>
-                    </div> &nbsp;
+
+
+            <!-- ******** graficos ********-->
+            <div class=" col-md-10 col-xs-12">
+                <div class="row col-md-12 col-xs-12" style="height: 50%;">
+                    <div class="col-md-6 col-xs-12" style="height: 50%; text-align: center; ">
+                        <div class='btn-danger h4' style="box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); 
+                        border-radius: 4px; "><i class="fas fa-thermometer-half" > Temperatura</i></div>
+                        <div id="chart-container">
+                            <div class="spinner-border text-dark" role="status">
+
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-12" style="height: 50%; text-align: center;">
+                        <div class='btn-primary h4'style="box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); 
+                        border-radius: 4px; "><i class="fas fa-tint"> Humedad Relativa</i></div>
+                        <div id="chart-container2">
+                            <div class="spinner-border text-dark" role="status">
+
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-4 col-xs-12" style="height: 25%;">
-                    <div id="chart-container4"><br>
-                        Cargando datos...<br>
-                    </div> &nbsp;
-                </div>
-                <div class="col-md-4 col-xs-12" style="height: 25%;">
-                    <div id="chart-container5"><br>
-                        Cargando datos...<br>
-                    </div> &nbsp;
+                <div class="row col-md-12 col-xs-12" style="height: 50%;">
+                    <div class="col-md-4 col-xs-12" style="height: 25%;text-align: center;">
+                        <div class='btn-dark h4' style="background-color: darkslategray; box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); 
+                        border-radius: 4px; "><i class="fas fa-bolt">
+                                Consumo
+                                Eléctrico</i></div>
+                        <div id="chart-container3">
+                            <div class="spinner-border text-dark" role="status">
+
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xs-12" style="height: 25%;text-align: center;">
+                        <div class='btn-success h4' style="box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); 
+                        border-radius: 4px; "><i class="fas fa-chart-line"> Tensión Monofásica</i></div>
+                        <div id="chart-container4">
+                            <div class="spinner-border text-dark" role="status">
+
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xs-12" style="height: 25%;text-align: center; ">
+                        <div class='btn-warning h4' style="box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); 
+                        border-radius: 4px; "><i class="far fa-lightbulb"> Iluminación Ambiente</i>
+                        </div>
+                        <div id="chart-container5">
+                            <div class="spinner-border text-dark" role="status">
+
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script type="text/javascript">
 
-        window.onload = temperatura();
-        window.onload = humedad();
-        window.onload = corriente();
-        window.onload = tension();
-        window.onload = iluminacion();
+        <script type="text/javascript">
 
-        setInterval(function () {
-            location.reload();
-        }, 30000);
-    </script>
+            window.onload = temperatura();
+            window.onload = humedad();
+            window.onload = corriente();
+            window.onload = tension();
+            window.onload = iluminacion();
+            //   window.onload = estadoPuerta();
+
+            setInterval(function () {
+                location.reload();
+            }, 60000);
+        </script>
 </body>
 
 </html>

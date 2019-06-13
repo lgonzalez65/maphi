@@ -125,44 +125,7 @@ function createChart5() {
       zoomType: 'y',
       events:
       {
-        load: function () {
-          // If the update checkbox is checked, get latest data every 15 seconds and add it to the chart
-       
-          // if (document.getElementById("Update").checked) {
-          for (var channelIndex = 0; channelIndex < channelKeys5.length; channelIndex++)  // iterate through each channel
-          {
-            (function (channelIndex) {
-              // get the data with a webservice call
-              $.getJSON('https://api.thingspeak.com/channels/' + channelKeys5[channelIndex].channelNumber + '/feeds.json?results=1;key=' + channelKeys5[channelIndex].key, function (data) {
-                for (var fieldIndex = 0; fieldIndex < channelKeys5[channelIndex].fieldList.length; fieldIndex++) {
-                  // if data exists
-                  var fieldStr = "data.field" + channelKeys5[channelIndex].fieldList[fieldIndex].field;
-                  var chartSeriesIndex = channelKeys5[channelIndex].fieldList[fieldIndex].series;
-                  if (data && eval(fieldStr)) {
-                    var p = []//new Highcharts.Point();
-                    var v = eval(fieldStr);
-                    window.console && console.log('valor v load:', v);
-                    p[0] = getChartDate(data.created_at);
-                    p[1] = parseFloat(v);
-                    // get the last date if possible
-                    if (dynamicChart5.series[chartSeriesIndex].data.length > 0) {
-                      last_date = dynamicChart5.series[chartSeriesIndex].data[dynamicChart5.series[chartSeriesIndex].data.length - 1].x;
-                    }
-                    var shift = false; //default for shift
-                    // if a numerical value exists and it is a new date, add it
-                    if (!isNaN(parseInt(v)) && (p[0] != last_date)) {
-                      dynamicChart5.series[chartSeriesIndex].addPoint(p, true, shift);
-                    }
-                  }
-                }
-
-
-              });
-            })(channelIndex);
-          }
-          // } //if checked
-        }
-
+        load: function () {}
       }
     },
     rangeSelector: {
@@ -198,7 +161,7 @@ function createChart5() {
       selected: 0
     },
     title: {
-      text: 'ILUMINACION AMBIENTE',
+     // text: 'ILUMINACION AMBIENTE',
       style: {
         color: '#000000',
         fontWeight: 'bold'
@@ -246,7 +209,7 @@ function createChart5() {
       id: 'I'
     }],
     exporting: {
-      enabled: true,
+      enabled: false,
       csv: {
         dateFormat: '%d/%m/%Y %I:%M:%S %p'
       }
@@ -325,8 +288,9 @@ function loadOnePoint5( channelNumber, key, sentFieldList) {
         var fieldStr = "data.feeds[" + h + "].field" + fieldList[fieldIndex].field;
         var v = eval(fieldStr);
         p[0] = getChartDate(data.feeds[h].created_at);
-        iluminacionActual = parseFloat(v);
-        document.querySelector('.IluminacionActual').innerHTML = iluminacionActual;
+        iluminacionActual = (parseFloat(v)).toFixed(2);
+        //document.querySelector('.IluminacionActual').innerHTML = "EVA-02: "+iluminacionActual;
+        document.querySelector('.IluminacionActual').innerHTML = iluminacionActual+"%";
         // if a numerical value exists add it
       }
    

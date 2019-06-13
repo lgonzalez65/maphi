@@ -65,7 +65,7 @@ function temperatura() {
     channelKeys[channelIndex].loaded = false;
 
     loadThingSpeakChannel(channelIndex, channelKeys[channelIndex].channelNumber, channelKeys[channelIndex].key, channelKeys[channelIndex].fieldList);
-    loadOnePoint(channelKeys[channelIndex].channelNumber, channelKeys[channelIndex].key, channelKeys[channelIndex].fieldList);
+    loadOnePoint(channelIndex,channelKeys[channelIndex].channelNumber, channelKeys[channelIndex].key, channelKeys[channelIndex].fieldList);
 
 
   }
@@ -123,43 +123,7 @@ function createChart() {
       zoomType: 'y',
       events:
       {
-        load: function () {
-          // If the update checkbox is checked, get latest data every 15 seconds and add it to the chart
-
-          // if (document.getElementById("Update").checked) {
-          for (var channelIndex = 0; channelIndex < channelKeys.length; channelIndex++)  // iterate through each channel
-          {
-            (function (channelIndex) {
-              // get the data with a webservice call
-              $.getJSON('https://api.thingspeak.com/channels/' + channelKeys[channelIndex].channelNumber + '/feeds.json?results=1;key=' + channelKeys[channelIndex].key, function (data) {
-                for (var fieldIndex = 0; fieldIndex < channelKeys[channelIndex].fieldList.length; fieldIndex++) {
-                  // if data exists
-                  var fieldStr = "data.field" + channelKeys[channelIndex].fieldList[fieldIndex].field;
-                  var chartSeriesIndex = channelKeys[channelIndex].fieldList[fieldIndex].series;
-                  if (data && eval(fieldStr)) {
-                    var p = []//new Highcharts.Point();
-                    var v = eval(fieldStr);
-                    window.console && console.log('valor v load:', v);
-                    p[0] = getChartDate(data.created_at);
-                    p[1] = parseFloat(v);
-                    // get the last date if possible
-                    if (dynamicChart.series[chartSeriesIndex].data.length > 0) {
-                      last_date = dynamicChart.series[chartSeriesIndex].data[dynamicChart.series[chartSeriesIndex].data.length - 1].x;
-                    }
-                    var shift = false; //default for shift
-                    // if a numerical value exists and it is a new date, add it
-                    if (!isNaN(parseInt(v)) && (p[0] != last_date)) {
-                      dynamicChart.series[chartSeriesIndex].addPoint(p, true, shift);
-                    }
-                  }
-                }
-
-
-              });
-            })(channelIndex);
-          }
-          // } //if checked
-        }
+        load: function () { }
 
       }
     },
@@ -192,11 +156,11 @@ function createChart() {
         type: 'all',
         text: 'Todo'
       }],
-      inputEnabled: true,
+      inputEnabled: false,
       selected: 0
     },
     title: {
-      text: 'TEMPERATURA AMBIENTE',
+    //  text: 'TEMPERATURA AMBIENTE',
       style: {
         color: '#000000',
         fontWeight: 'bold'
@@ -245,7 +209,7 @@ function createChart() {
       id: 'T'
     }],
     exporting: {
-      enabled: true,
+      enabled: false,
       csv: {
         dateFormat: '%d/%m/%Y %I:%M:%S %p'
       }
@@ -254,6 +218,7 @@ function createChart() {
       enabled: true
     },
     navigator: {
+      enabled: false,
       baseSeries: 0,  //select which series to show in history navigator, First series is 0
       series: {
         includeInCSVExport: false
@@ -303,7 +268,7 @@ function createChart() {
   }
 }
 
-function loadOnePoint(channelNumber, key, sentFieldList) {
+function loadOnePoint(channelIndex,channelNumber, key, sentFieldList) {
 
   var fieldList = sentFieldList;
   // get the Channel data with a webservice call
@@ -321,8 +286,9 @@ function loadOnePoint(channelNumber, key, sentFieldList) {
         var fieldStr = "data.feeds[" + h + "].field" + fieldList[fieldIndex].field;
         var v = eval(fieldStr);
         p[0] = getChartDate(data.feeds[h].created_at);
-        temperaturaActual[channelNumber] = parseFloat(v);
-        document.querySelector('.TemperaturaActual'+channelNumber).innerHTML = temperaturaActual[channelNumber];
+        temperaturaActual[channelNumber] = (parseFloat(v)).toFixed(2);
+        //document.querySelector('.TemperaturaActual'+channelNumber).innerHTML = "EVA-0"+(channelIndex+1)+": "+temperaturaActual[channelNumber];
+        document.querySelector('.TemperaturaActual'+channelNumber).innerHTML = temperaturaActual[channelNumber]+"°C";
         // if a numerical value exists add it
       }
 

@@ -117,12 +117,7 @@ function createChart4() {
       zoomType: 'y',
       events:
       {
-        load: function () {
-
-
-
-        }
-
+        load: function () {}
       }
     },
     rangeSelector: {
@@ -158,7 +153,7 @@ function createChart4() {
       selected: 0
     },
     title: {
-      text: 'TENSION MONOFASICA',
+     // text: 'TENSION MONOFASICA',
       style: {
         color: '#000000',
         fontWeight: 'bold'
@@ -207,7 +202,7 @@ function createChart4() {
       id: 'V'
     }],
     exporting: {
-      enabled: true,
+      enabled: false,
       csv: {
         dateFormat: '%d/%m/%Y %I:%M:%S %p'
       }
@@ -285,8 +280,9 @@ function loadOnePoint4( channelNumber, key, sentFieldList) {
         var fieldStr = "data.feeds[" + h + "].field" + fieldList[fieldIndex].field;
         var v = eval(fieldStr);
         p[0] = getChartDate(data.feeds[h].created_at);
-        tensionActual = parseFloat(v);
-        document.querySelector('.TensionActual').innerHTML = tensionActual;
+        tensionActual = (parseFloat(v)).toFixed(2);
+        //document.querySelector('.TensionActual').innerHTML = "EVA-05: "+tensionActual;
+        document.querySelector('.TensionActual').innerHTML = tensionActual+"V";
         // if a numerical value exists add it
       }
    
