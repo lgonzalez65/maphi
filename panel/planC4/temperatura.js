@@ -22,6 +22,8 @@ channelKeys.push({
 // user's timezone offset
 var myOffset = new Date().getTimezoneOffset();
 
+var temperaturaActual = [];
+
 // converts date format from JSON
 function getChartDate(d) {
   // get the data using javascript's date object (year, month, day, hour, minute, second)
@@ -63,6 +65,8 @@ function temperatura() {
     channelKeys[channelIndex].loaded = false;
 
     loadThingSpeakChannel(channelIndex, channelKeys[channelIndex].channelNumber, channelKeys[channelIndex].key, channelKeys[channelIndex].fieldList);
+    loadOnePoint(channelKeys[channelIndex].channelNumber, channelKeys[channelIndex].key, channelKeys[channelIndex].fieldList);
+
 
   }
   //window.console && console.log('Channel Keys',channelKeys);
@@ -108,7 +112,9 @@ function loadThingSpeakChannel(sentChannelIndex, channelNumber, key, sentFieldLi
 
 // create the chart when all data is loaded
 function createChart() {
-  
+
+
+
   // specify the chart options
   var chartOptions = {
     chart:
@@ -119,7 +125,7 @@ function createChart() {
       {
         load: function () {
           // If the update checkbox is checked, get latest data every 15 seconds and add it to the chart
-       
+
           // if (document.getElementById("Update").checked) {
           for (var channelIndex = 0; channelIndex < channelKeys.length; channelIndex++)  // iterate through each channel
           {
@@ -173,7 +179,7 @@ function createChart() {
       }, {
         count: 1,
         type: 'week',
-        text: 'W'
+        text: 'S'
       }, {
         count: 1,
         type: 'month',
@@ -181,17 +187,23 @@ function createChart() {
       }, {
         count: 1,
         type: 'year',
-        text: 'Y'
+        text: 'A'
       }, {
         type: 'all',
-        text: 'All'
+        text: 'Todo'
       }],
       inputEnabled: true,
       selected: 0
     },
     title: {
-      text: ''
+      text: 'TEMPERATURA AMBIENTE',
+      style: {
+        color: '#000000',
+        fontWeight: 'bold'
+      }
     },
+    colors: ['#ff0066', '#ff6600', '#f45b5b', '#8085e9', '#8d4654', '#7798BF', '#aaeeee',
+      '#ff0066', '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
     plotOptions: {
       line: {
         gapSize: 5
@@ -203,7 +215,9 @@ function createChart() {
         animation: true,
         step: false,
         turboThrehold: 1000,
-        borderWidth: 0
+        borderWidth: 0,
+        shadow: true,
+        lineWidth: 3
       }
     },
     tooltip: {
@@ -226,7 +240,7 @@ function createChart() {
     },
     yAxis: [{
       title: {
-        text: 'Temperature °C'
+        text: 'Temperatura °C'
       },
       id: 'T'
     }],
@@ -247,7 +261,7 @@ function createChart() {
     },
     scrollbar: {
       enabled: false
-  },
+    },
     series: []
     //series: [{data:[[getChartDate("2013-06-16T00:32:40Z"),75]]}]      
   };
@@ -269,7 +283,7 @@ function createChart() {
   }
   // set chart labels here so that decoding occurs properly
   //chartOptions.title.text = data.channel.name;
-  chartOptions.xAxis.title.text = 'Date';
+  chartOptions.xAxis.title.text = 'Fecha';
 
   // draw the chart
   dynamicChart = new Highcharts.StockChart(chartOptions);
@@ -287,6 +301,34 @@ function createChart() {
       }
     }
   }
-  
-
 }
+
+function loadOnePoint(channelNumber, key, sentFieldList) {
+
+  var fieldList = sentFieldList;
+  // get the Channel data with a webservice call
+  $.getJSON('https://api.thingspeak.com/channels/' + channelNumber + '/feeds.json?results=1;key=' + key, function (data) {
+    // if no access
+    if (data == '-1') {
+      window.console && console.log('Thingspeak Data Loading Error');
+    }
+    for (var fieldIndex = 0; fieldIndex < fieldList.length; fieldIndex++)  // iterate through each field
+    {
+
+      for (var h = 0; h < data.feeds.length; h++)  // iterate through each feed (data point)
+      {
+        var p = []//new Highcharts.Point();
+        var fieldStr = "data.feeds[" + h + "].field" + fieldList[fieldIndex].field;
+        var v = eval(fieldStr);
+        p[0] = getChartDate(data.feeds[h].created_at);
+        temperaturaActual[channelNumber] = parseFloat(v);
+        document.querySelector('.TemperaturaActual'+channelNumber).innerHTML = temperaturaActual[channelNumber];
+        // if a numerical value exists add it
+      }
+
+    }
+
+  })
+    .fail(function () { alert('getJSON request failed! '); });
+}
+

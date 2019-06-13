@@ -18,6 +18,8 @@ channelKeys3.push({
 // user's timezone offset
 var myOffset3 = new Date().getTimezoneOffset();
 
+var corrienteActual = [];
+
 // converts date format from JSON
 function getChartDate(d) {
   // get the data using javascript's date object (year, month, day, hour, minute, second)
@@ -59,6 +61,7 @@ function corriente() {
     channelKeys3[channelIndex].loaded = false;
 
     loadThingSpeakChannel3(channelIndex, channelKeys3[channelIndex].channelNumber, channelKeys3[channelIndex].key, channelKeys3[channelIndex].fieldList);
+    loadOnePoint3(channelKeys3[channelIndex].channelNumber, channelKeys3[channelIndex].key, channelKeys3[channelIndex].fieldList);
 
   }
   //window.console && console.log('Channel Keys',channelKeys3);
@@ -169,7 +172,7 @@ function createChart3() {
       }, {
         count: 1,
         type: 'week',
-        text: 'W'
+        text: 'S'
       }, {
         count: 1,
         type: 'month',
@@ -177,17 +180,23 @@ function createChart3() {
       }, {
         count: 1,
         type: 'year',
-        text: 'Y'
+        text: 'A'
       }, {
         type: 'all',
-        text: 'All'
+        text: 'Todo'
       }],
       inputEnabled: false,
       selected: 0
     },
     title: {
-      text: ''
+      text: 'CONSUMO ELECTRICO',
+      style: {
+        color: '#000000',
+        fontWeight: 'bold'
+    }
     },
+    colors: [ '#ff0000','#ff9900','#7798BF', '#55BF3B','#aaeeee', '#8085e9', '#aaeeee',
+    '#ff0066', '#eeaaee', '#DF5353'  ],
     plotOptions: {
       line: {
         gapSize: 5
@@ -199,12 +208,14 @@ function createChart3() {
         animation: true,
         step: false,
         turboThrehold: 1000,
-        borderWidth: 0
+        borderWidth: 0,
+        shadow: true,
+        lineWidth: 3
       }
     },
     tooltip: {
       valueDecimals: 1,
-      valueSuffix: '°C',
+      valueSuffix: 'A',
       xDateFormat: '%d-%m-%Y<br/>%l:%M:%S %p'
 
     },
@@ -222,7 +233,7 @@ function createChart3() {
     },
     yAxis: [{
       title: {
-        text: 'Current A'
+        text: 'Corriente A'
       },
       id: 'A'
     }],
@@ -266,7 +277,7 @@ function createChart3() {
   }
   // set chart labels here so that decoding occurs properly
   //chartOptions.title.text = data.channel.name;
-  chartOptions.xAxis.title.text = 'Date';
+  chartOptions.xAxis.title.text = 'Fecha';
 
   // draw the chart
   dynamicChart3 = new Highcharts.StockChart(chartOptions);
@@ -285,4 +296,34 @@ function createChart3() {
     }
   }
 
+}
+
+
+function loadOnePoint3( channelNumber, key, sentFieldList) {
+ 
+  var fieldList = sentFieldList;
+  // get the Channel data with a webservice call
+  $.getJSON('https://api.thingspeak.com/channels/' + channelNumber + '/feeds.json?results=1;key=' + key, function (data) {
+    // if no access
+    if (data == '-1') {
+      window.console && console.log('Thingspeak Data Loading Error');
+    }
+    for (var fieldIndex = 0; fieldIndex < fieldList.length; fieldIndex++)  // iterate through each field
+    {
+    
+      for (var h = 0; h < data.feeds.length; h++)  // iterate through each feed (data point)
+      {
+        var p = []//new Highcharts.Point();
+        var fieldStr = "data.feeds[" + h + "].field" + fieldList[fieldIndex].field;
+        var v = eval(fieldStr);
+        p[0] = getChartDate(data.feeds[h].created_at);
+        corrienteActual = parseFloat(v);
+        document.querySelector('.CorrienteActual').innerHTML = corrienteActual;
+        // if a numerical value exists add it
+      }
+   
+    }
+   
+  })
+    .fail(function () { alert('getJSON request failed! '); });
 }

@@ -22,6 +22,8 @@ channelKeys2.push({
 // user's timezone offset
 var myOffset2 = new Date().getTimezoneOffset();
 
+var humedadActual = [];
+
 // converts date format from JSON
 function getChartDate(d) {
   // get the data using javascript's date object (year, month, day, hour, minute, second)
@@ -63,6 +65,7 @@ function humedad() {
     channelKeys2[channelIndex].loaded = false;
 
     loadThingSpeakChannel2(channelIndex, channelKeys2[channelIndex].channelNumber, channelKeys2[channelIndex].key, channelKeys2[channelIndex].fieldList);
+    loadOnePoint2(channelKeys2[channelIndex].channelNumber, channelKeys2[channelIndex].key, channelKeys2[channelIndex].fieldList);
 
   }
   //window.console && console.log('Channel Keys',channelKeys2);
@@ -108,7 +111,7 @@ function loadThingSpeakChannel2(sentChannelIndex, channelNumber, key, sentFieldL
 
 // create the chart when all data is loaded
 function createChart2() {
-  
+
   // specify the chart options
   var chartOptions = {
     chart:
@@ -118,41 +121,7 @@ function createChart2() {
       events:
       {
         load: function () {
-          // If the update checkbox is checked, get latest data every 15 seconds and add it to the chart
-      
-          // if (document.getElementById("Update").checked) {
-          for (var channelIndex = 0; channelIndex < channelKeys2.length; channelIndex++)  // iterate through each channel
-          {
-            (function (channelIndex) {
-              // get the data with a webservice call
-              $.getJSON('https://api.thingspeak.com/channels/' + channelKeys2[channelIndex].channelNumber + '/feeds.json?results=1;key=' + channelKeys2[channelIndex].key, function (data) {
-                for (var fieldIndex = 0; fieldIndex < channelKeys2[channelIndex].fieldList.length; fieldIndex++) {
-                  // if data exists
-                  var fieldStr = "data.field" + channelKeys2[channelIndex].fieldList[fieldIndex].field;
-                  var chartSeriesIndex = channelKeys2[channelIndex].fieldList[fieldIndex].series;
-                  if (data && eval(fieldStr)) {
-                    var p = []//new Highcharts.Point();
-                    var v = eval(fieldStr);
-                    window.console && console.log('valor v load:', v);
-                    p[0] = getChartDate(data.created_at);
-                    p[1] = parseFloat(v);
-                    // get the last date if possible
-                    if (dynamicChart2.series[chartSeriesIndex].data.length > 0) {
-                      last_date = dynamicChart2.series[chartSeriesIndex].data[dynamicChart2.series[chartSeriesIndex].data.length - 1].x;
-                    }
-                    var shift = false; //default for shift
-                    // if a numerical value exists and it is a new date, add it
-                    if (!isNaN(parseInt(v)) && (p[0] != last_date)) {
-                      dynamicChart2.series[chartSeriesIndex].addPoint(p, true, shift);
-                    }
-                  }
-                }
-
-
-              });
-            })(channelIndex);
-          }
-          // } //if checked
+        
         }
 
       }
@@ -173,7 +142,7 @@ function createChart2() {
       }, {
         count: 1,
         type: 'week',
-        text: 'W'
+        text: 'S'
       }, {
         count: 1,
         type: 'month',
@@ -181,17 +150,23 @@ function createChart2() {
       }, {
         count: 1,
         type: 'year',
-        text: 'Y'
+        text: 'A'
       }, {
         type: 'all',
-        text: 'All'
+        text: 'Todo'
       }],
       inputEnabled: true,
       selected: 0
     },
     title: {
-      text: ''
+      text: 'HUMEDAD RELATIVA',
+      style: {
+        color: '#000000',
+        fontWeight: 'bold'
+      }
     },
+    colors: ['#9900cc', '#0000ff', '#8085e9', '#aaeeee',
+      '#ff0066', '#eeaaee', '#DF5353', '#7798BF',],
     plotOptions: {
       line: {
         gapSize: 5
@@ -203,12 +178,14 @@ function createChart2() {
         animation: true,
         step: false,
         turboThrehold: 1000,
-        borderWidth: 0
+        borderWidth: 0,
+        shadow: true,
+        lineWidth: 3
       }
     },
     tooltip: {
       valueDecimals: 1,
-      valueSuffix: '°C',
+      valueSuffix: '%',
       xDateFormat: '%d-%m-%Y<br/>%l:%M:%S %p'
 
     },
@@ -226,7 +203,7 @@ function createChart2() {
     },
     yAxis: [{
       title: {
-        text: 'Humidity %'
+        text: 'humedad %'
       },
       id: 'H'
     }],
@@ -247,7 +224,7 @@ function createChart2() {
     },
     scrollbar: {
       enabled: false
-  },
+    },
     series: []
     //series: [{data:[[getChartDate("2013-06-16T00:32:40Z"),75]]}]      
   };
@@ -269,7 +246,7 @@ function createChart2() {
   }
   // set chart labels here so that decoding occurs properly
   //chartOptions.title.text = data.channel.name;
-  chartOptions.xAxis.title.text = 'Date';
+  chartOptions.xAxis.title.text = 'Fecha';
 
   // draw the chart
   dynamicChart2 = new Highcharts.StockChart(chartOptions);
@@ -288,4 +265,33 @@ function createChart2() {
     }
   }
 
+}
+
+function loadOnePoint2(channelNumber, key, sentFieldList) {
+
+  var fieldList = sentFieldList;
+  // get the Channel data with a webservice call
+  $.getJSON('https://api.thingspeak.com/channels/' + channelNumber + '/feeds.json?results=1;key=' + key, function (data) {
+    // if no access
+    if (data == '-1') {
+      window.console && console.log('Thingspeak Data Loading Error');
+    }
+    for (var fieldIndex = 0; fieldIndex < fieldList.length; fieldIndex++)  // iterate through each field
+    {
+
+      for (var h = 0; h < data.feeds.length; h++)  // iterate through each feed (data point)
+      {
+        var p = []//new Highcharts.Point();
+        var fieldStr = "data.feeds[" + h + "].field" + fieldList[fieldIndex].field;
+        var v = eval(fieldStr);
+        p[0] = getChartDate(data.feeds[h].created_at);
+        humedadActual[channelNumber] = parseFloat(v);
+        document.querySelector('.HumedadActual'+channelNumber).innerHTML = humedadActual[channelNumber];
+        // if a numerical value exists add it
+      }
+
+    }
+
+  })
+    .fail(function () { alert('getJSON request failed! '); });
 }

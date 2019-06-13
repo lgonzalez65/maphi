@@ -19,6 +19,8 @@ channelKeys4.push({
 // user's timezone offset
 var myOffset4 = new Date().getTimezoneOffset();
 
+var tensionActual;
+
 // converts date format from JSON
 function getChartDate(d) {
   // get the data using javascript's date object (year, month, day, hour, minute, second)
@@ -60,6 +62,7 @@ function tension() {
     channelKeys4[channelIndex].loaded = false;
 
     loadThingSpeakChannel4(channelIndex, channelKeys4[channelIndex].channelNumber, channelKeys4[channelIndex].key, channelKeys4[channelIndex].fieldList);
+    loadOnePoint4(channelKeys4[channelIndex].channelNumber, channelKeys4[channelIndex].key, channelKeys4[channelIndex].fieldList);
 
   }
   //window.console && console.log('Channel Keys',channelKeys4);
@@ -105,7 +108,7 @@ function loadThingSpeakChannel4(sentChannelIndex, channelNumber, key, sentFieldL
 
 // create the chart when all data is loaded
 function createChart4() {
- 
+
   // specify the chart options
   var chartOptions = {
     chart:
@@ -115,41 +118,9 @@ function createChart4() {
       events:
       {
         load: function () {
-          // If the update checkbox is checked, get latest data every 15 seconds and add it to the chart
-         
-          // if (document.getElementById("Update").checked) {
-          for (var channelIndex = 0; channelIndex < channelKeys4.length; channelIndex++)  // iterate through each channel
-          {
-            (function (channelIndex) {
-              // get the data with a webservice call
-              $.getJSON('https://api.thingspeak.com/channels/' + channelKeys4[channelIndex].channelNumber + '/feeds.json?results=1;key=' + channelKeys4[channelIndex].key, function (data) {
-                for (var fieldIndex = 0; fieldIndex < channelKeys4[channelIndex].fieldList.length; fieldIndex++) {
-                  // if data exists
-                  var fieldStr = "data.field" + channelKeys4[channelIndex].fieldList[fieldIndex].field;
-                  var chartSeriesIndex = channelKeys4[channelIndex].fieldList[fieldIndex].series;
-                  if (data && eval(fieldStr)) {
-                    var p = []//new Highcharts.Point();
-                    var v = eval(fieldStr);
-                    window.console && console.log('valor v load:', v);
-                    p[0] = getChartDate(data.created_at);
-                    p[1] = parseFloat(v);
-                    // get the last date if possible
-                    if (dynamicChart4.series[chartSeriesIndex].data.length > 0) {
-                      last_date = dynamicChart4.series[chartSeriesIndex].data[dynamicChart4.series[chartSeriesIndex].data.length - 1].x;
-                    }
-                    var shift = false; //default for shift
-                    // if a numerical value exists and it is a new date, add it
-                    if (!isNaN(parseInt(v)) && (p[0] != last_date)) {
-                      dynamicChart4.series[chartSeriesIndex].addPoint(p, true, shift);
-                    }
-                  }
-                }
 
 
-              });
-            })(channelIndex);
-          }
-          // } //if checked
+
         }
 
       }
@@ -170,7 +141,7 @@ function createChart4() {
       }, {
         count: 1,
         type: 'week',
-        text: 'W'
+        text: 'S'
       }, {
         count: 1,
         type: 'month',
@@ -178,17 +149,23 @@ function createChart4() {
       }, {
         count: 1,
         type: 'year',
-        text: 'Y'
+        text: 'A'
       }, {
         type: 'all',
-        text: 'All'
+        text: 'Todo'
       }],
-      inputEnabled: true,
+      inputEnabled: false,
       selected: 0
     },
     title: {
-      text: ''
+      text: 'TENSION MONOFASICA',
+      style: {
+        color: '#000000',
+        fontWeight: 'bold'
+      }
     },
+    colors: ['#55BF3B', '#aaeeee', '#8085e9', '#aaeeee',
+      '#ff0066', '#eeaaee', '#DF5353', '#7798BF',],
     plotOptions: {
       line: {
         gapSize: 5
@@ -200,12 +177,14 @@ function createChart4() {
         animation: true,
         step: false,
         turboThrehold: 1000,
-        borderWidth: 0
+        borderWidth: 0,
+        shadow: true,
+        lineWidth: 3
       }
     },
     tooltip: {
       valueDecimals: 1,
-      valueSuffix: '°C',
+      valueSuffix: 'V',
       xDateFormat: '%d-%m-%Y<br/>%l:%M:%S %p'
 
     },
@@ -223,7 +202,7 @@ function createChart4() {
     },
     yAxis: [{
       title: {
-        text: 'Voltage V'
+        text: 'Voltaje V'
       },
       id: 'V'
     }],
@@ -245,7 +224,7 @@ function createChart4() {
     },
     scrollbar: {
       enabled: false
-  },
+    },
     series: []
     //series: [{data:[[getChartDate("2013-06-16T00:32:40Z"),75]]}]      
   };
@@ -267,7 +246,7 @@ function createChart4() {
   }
   // set chart labels here so that decoding occurs properly
   //chartOptions.title.text = data.channel.name;
-  chartOptions.xAxis.title.text = 'Date';
+  chartOptions.xAxis.title.text = 'Fecha';
 
   // draw the chart
   dynamicChart4 = new Highcharts.StockChart(chartOptions);
@@ -286,4 +265,33 @@ function createChart4() {
     }
   }
 
+}
+
+function loadOnePoint4( channelNumber, key, sentFieldList) {
+ 
+  var fieldList = sentFieldList;
+  // get the Channel data with a webservice call
+  $.getJSON('https://api.thingspeak.com/channels/' + channelNumber + '/feeds.json?results=1;key=' + key, function (data) {
+    // if no access
+    if (data == '-1') {
+      window.console && console.log('Thingspeak Data Loading Error');
+    }
+    for (var fieldIndex = 0; fieldIndex < fieldList.length; fieldIndex++)  // iterate through each field
+    {
+    
+      for (var h = 0; h < data.feeds.length; h++)  // iterate through each feed (data point)
+      {
+        var p = []//new Highcharts.Point();
+        var fieldStr = "data.feeds[" + h + "].field" + fieldList[fieldIndex].field;
+        var v = eval(fieldStr);
+        p[0] = getChartDate(data.feeds[h].created_at);
+        tensionActual = parseFloat(v);
+        document.querySelector('.TensionActual').innerHTML = tensionActual;
+        // if a numerical value exists add it
+      }
+   
+    }
+   
+  })
+    .fail(function () { alert('getJSON request failed! '); });
 }

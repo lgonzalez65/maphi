@@ -19,6 +19,8 @@ channelKeys5.push({
 // user's timezone offset
 var myOffset5 = new Date().getTimezoneOffset();
 
+var iluminacionActual;
+
 // converts date format from JSON
 function getChartDate(d) {
   // get the data using javascript's date object (year, month, day, hour, minute, second)
@@ -60,6 +62,8 @@ function iluminacion() {
     channelKeys5[channelIndex].loaded = false;
 
     loadThingSpeakChannel5(channelIndex, channelKeys5[channelIndex].channelNumber, channelKeys5[channelIndex].key, channelKeys5[channelIndex].fieldList);
+
+    loadOnePoint5(channelKeys5[channelIndex].channelNumber, channelKeys5[channelIndex].key, channelKeys5[channelIndex].fieldList);
 
   }
   //window.console && console.log('Channel Keys',channelKeys5);
@@ -110,6 +114,13 @@ function createChart5() {
   var chartOptions = {
     chart:
     {
+      /* backgroundColor: {
+            linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+            stops: [
+                [0, '#2a2a2b'],
+                [1, '#3e3e40']
+            ]
+       },*/
       renderTo: 'chart-container5',
       zoomType: 'y',
       events:
@@ -170,7 +181,7 @@ function createChart5() {
       }, {
         count: 1,
         type: 'week',
-        text: 'W'
+        text: 'S'
       }, {
         count: 1,
         type: 'month',
@@ -178,17 +189,22 @@ function createChart5() {
       }, {
         count: 1,
         type: 'year',
-        text: 'Y'
+        text: 'A'
       }, {
         type: 'all',
-        text: 'All'
+        text: 'Todo'
       }],
-      inputEnabled: true,
+      inputEnabled: false,
       selected: 0
     },
     title: {
-      text: ''
+      text: 'ILUMINACION AMBIENTE',
+      style: {
+        color: '#000000',
+        fontWeight: 'bold'
+    }
     },
+    colors: [  '#ffff00','#DF5353'  ],
     plotOptions: {
       line: {
         gapSize: 5
@@ -200,12 +216,14 @@ function createChart5() {
         animation: true,
         step: false,
         turboThrehold: 1000,
-        borderWidth: 0
+        borderWidth: 0,
+        shadow: true,
+        lineWidth: 3
       }
     },
     tooltip: {
       valueDecimals: 1,
-      valueSuffix: '°C',
+      valueSuffix: '%',
       xDateFormat: '%d-%m-%Y<br/>%l:%M:%S %p'
 
     },
@@ -223,7 +241,7 @@ function createChart5() {
     },
     yAxis: [{
       title: {
-        text: 'Illumination %'
+        text: 'Iluminación %'
       },
       id: 'I'
     }],
@@ -267,7 +285,7 @@ function createChart5() {
   }
   // set chart labels here so that decoding occurs properly
   //chartOptions.title.text = data.channel.name;
-  chartOptions.xAxis.title.text = 'Date';
+  chartOptions.xAxis.title.text = 'Fecha';
 
   // draw the chart
   dynamicChart5 = new Highcharts.StockChart(chartOptions);
@@ -286,4 +304,34 @@ function createChart5() {
     }
   }
 
+}
+
+
+function loadOnePoint5( channelNumber, key, sentFieldList) {
+ 
+  var fieldList = sentFieldList;
+  // get the Channel data with a webservice call
+  $.getJSON('https://api.thingspeak.com/channels/' + channelNumber + '/feeds.json?results=1;key=' + key, function (data) {
+    // if no access
+    if (data == '-1') {
+      window.console && console.log('Thingspeak Data Loading Error');
+    }
+    for (var fieldIndex = 0; fieldIndex < fieldList.length; fieldIndex++)  // iterate through each field
+    {
+    
+      for (var h = 0; h < data.feeds.length; h++)  // iterate through each feed (data point)
+      {
+        var p = []//new Highcharts.Point();
+        var fieldStr = "data.feeds[" + h + "].field" + fieldList[fieldIndex].field;
+        var v = eval(fieldStr);
+        p[0] = getChartDate(data.feeds[h].created_at);
+        iluminacionActual = parseFloat(v);
+        document.querySelector('.IluminacionActual').innerHTML = iluminacionActual;
+        // if a numerical value exists add it
+      }
+   
+    }
+   
+  })
+    .fail(function () { alert('getJSON request failed! '); });
 }
