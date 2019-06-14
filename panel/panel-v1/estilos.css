@@ -1,3 +1,27 @@
+@media screen and (max-width:768px) {
+    .item {
+        display: none;
+    }
+
+    .item1{
+        display: block !important;
+        text-align: center !important;
+       
+    }
+
+  }
+
+  .item1{
+      display: none;
+      text-align: center !important;
+  }
+
+  .pie {
+    padding-bottom:10px; 
+    padding-top: 10px; 
+    text-align: center; 
+  }
+
 .cabecera{
     padding-bottom:10px; 
     padding-top: 10px; 
