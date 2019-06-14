@@ -1,0 +1,61 @@
+.cabecera{
+    padding-bottom:10px; 
+    padding-top: 10px; 
+    text-align: center; 
+}
+
+.logo{
+    max-height:130px;
+    max-width: 100%;
+}
+
+.sombreado{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    border-radius: 4px !important; 
+}
+
+.bg-darkslategray{
+    background-color: darkslategray !important;
+}
+
+.bg-slateblue{
+    background-color:slateblue !important;
+}
+
+.bg-yellowgreen{
+    background-color:yellowgreen !important;
+}
+
+.card{
+    padding-left: 0 !important; 
+    padding-right: 0 !important;
+    text-align: center !important;   
+    border-radius: 4px !important;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.card-body{
+    padding-left: 0 !important;
+    padding-right: 0 !important; 
+    margin-left:1px !important;
+    margin-right: 1px !important;
+    text-align: center !important;;   
+}
+
+.container {
+    margin:0px !important; 
+    padding:10px !important;
+}
+
+.titulo-chart{
+    text-align: center; 
+    padding-top: 5px;
+    padding-bottom: 5px;
+    
+}
+
+.grafico{
+    margin-top:20px;
+    margin-bottom:20px;
+}
