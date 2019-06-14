@@ -46,10 +46,10 @@ function loadOnePoint6(channelNumber, key, sentFieldList) {
 
         //p[0] = getChartDate(data.feeds[h].created_at);
         if (parseInt(v) == 1) {
-          estadoPuerta = 'ABIERTA';
+          estadoPuerta = "<i class='fas fa-door-open'> Puerta Abierta</i>";
         }
         else {
-          estadoPuerta = 'CERRADA';
+          estadoPuerta = "<i class='fas fa-door-closed'> Puerta Cerrada</i>";
         }
        
         //document.querySelector('.estadoPuerta').innerHTML = "EVA-02: "+estadoPuerta;
