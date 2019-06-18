@@ -1,4 +1,3 @@
-
 var channelsLoaded7 = 0;
 var channelKeys7 = [];
 
@@ -7,12 +6,13 @@ channelKeys7.push({
   fieldList: [{ field: 1, axis: 'O' },{ field: 2, axis: 'O' }]
 });
 
-
+var iconoInterruptor1;
+var iconoInterruptor2;
 var interruptor1;
 var interruptor2;
 
 function interruptores() {
-
+  channelsLoaded7 = 0;
   var last_date; // variable for the last date added to the chart
 
   var seriesCounter = 0
@@ -42,32 +42,41 @@ function loadOnePoint7(channelNumber, key, sentFieldList) {
       window.console && console.log('Thingspeak Data Loading Error');
     }
     
+    var actualizacion = [];
+
         var fieldStr = "data.feeds[0].field1";
         var v = eval(fieldStr);
 
-        //p[0] = getChartDate(data.feeds[h].created_at);
+        
         if (parseInt(v) == 1) {
-          interruptor1 = "<i class='fas fa-play'> Interruptor 1 Activado</i>";
+          iconoInterruptor1="<i class='fas fa-play' style='vertical-align: middle; font-size: 5vh;'></>";
+          interruptor1 = "Interruptor 1 Activado";
         }
         else {
-          interruptor1 = "<i class='fas fa-stop'> Interruptor 1 Desactivado</i>";
+          iconoInterruptor1="<i class='fas fa-stop' style='vertical-align: middle; font-size: 5vh;'></i>";
+          interruptor1 = "Interruptor 1 Desactivado";
         }
         var fieldStr2 = "data.feeds[0].field2";
         var v2 = eval(fieldStr2);
 
-        //p[0] = getChartDate(data.feeds[h].created_at);
+        
         if (parseInt(v2) == 1) {
-          interruptor2 = "<i class='fas fa-play'> Interruptor 2 Activado</i>";
+          iconoInterruptor2="<i class='fas fa-play' style='vertical-align: middle; font-size: 5vh;'></>";
+          interruptor2 = "Interruptor 2 Activado";
         }
         else {
-          interruptor2 = "<i class='fas fa-stop'> Interruptor 2 Desactivado</i>";
+          iconoInterruptor2="<i class='fas fa-stop' style='vertical-align: middle; font-size: 5vh;'></i>";
+          interruptor2 = "Interruptor 2 Desactivado";
         }
        
-        
+        document.querySelector('.IconoInterruptor1').innerHTML = iconoInterruptor1;
+        document.querySelector('.IconoInterruptor2').innerHTML = iconoInterruptor2;
         document.querySelector('.Interruptor1').innerHTML = interruptor1;
         document.querySelector('.Interruptor2').innerHTML = interruptor2;
-        // if a numerical value exists add it
+        
+        actualizacion[channelNumber] = getFecha(data.feeds[0].created_at);
+        document.querySelector('.Actualizacion' + channelNumber).innerHTML = actualizacion[channelNumber];
 
   })
-    .fail(function () { alert('getJSON request failed! '); });
+  .fail(/*function () { alert('getJSON request failed! '); }*/);
 }

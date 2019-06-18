@@ -19,32 +19,14 @@ channelKeys.push({
   fieldList: [{ field: 1, axis: 'T' }]
 });
 
-// user's timezone offset
-var myOffset = new Date().getTimezoneOffset();
 
 var temperaturaActual = [];
-
-// converts date format from JSON
-function getChartDate(d) {
-  // get the data using javascript's date object (year, month, day, hour, minute, second)
-  // months in javascript start at 0, so remember to subtract 1 when specifying the month
-  // offset in minutes is converted to milliseconds and subtracted so that chart's x-axis is correct
-  return Date.UTC(d.substring(0, 4), d.substring(5, 7) - 1, d.substring(8, 10), d.substring(11, 13), d.substring(14, 16), d.substring(17, 19)) - (myOffset * 60000);
-}
-
-// Hide all series, via 'Hide All' button.  Then user can click on serries name in legent to show series of interest.      
-function HideAll() {
-  for (var index = 0; index < dynamicChart.series.length; index++)  // iterate through each series
-  {
-    if (dynamicChart.series[index].name == 'Navigator')
-      continue;
-    dynamicChart.series[index].hide();
-  }
-}
+var ultimaActualizacion = [];
 
 //  This is where the chart is generated.
 function temperatura() {
-
+  channelsLoaded = 0;
+  dynamicChart = null;
   var last_date; // variable for the last date added to the chart
   //window.console && console.log('Testing console');
   //make series numbers for each field
@@ -63,23 +45,18 @@ function temperatura() {
   for (var channelIndex = 0; channelIndex < channelKeys.length; channelIndex++)  // iterate through each channel
   {
     channelKeys[channelIndex].loaded = false;
-
+    
     loadThingSpeakChannel(channelIndex, channelKeys[channelIndex].channelNumber, channelKeys[channelIndex].key, channelKeys[channelIndex].fieldList);
-    loadOnePoint(channelIndex,channelKeys[channelIndex].channelNumber, channelKeys[channelIndex].key, channelKeys[channelIndex].fieldList);
-
-
+    loadOnePoint(channelIndex, channelKeys[channelIndex].channelNumber, channelKeys[channelIndex].key, channelKeys[channelIndex].fieldList);
   }
-  //window.console && console.log('Channel Keys',channelKeys);
-
 }
-
 
 // load the most recent 2500 points (fast initial load) from a ThingSpeak channel into a data[] array and return the data[] array
 function loadThingSpeakChannel(sentChannelIndex, channelNumber, key, sentFieldList) {
   var fieldList = sentFieldList;
   var channelIndex = sentChannelIndex;
   // get the Channel data with a webservice call
-  $.getJSON('https://api.thingspeak.com/channels/' + channelNumber + '/feeds.json?results=1000;key=' + key, function (data) {
+  $.getJSON('https://api.thingspeak.com/channels/' + channelNumber + '/feeds.json?results=5000;key=' + key, function (data) {
     // if no access
     if (data == '-1') {
       $('#chart-container').append('This channel is not public.  To embed charts, the channel must be public or a read key must be specified.');
@@ -104,16 +81,15 @@ function loadThingSpeakChannel(sentChannelIndex, channelNumber, key, sentFieldLi
     channelKeys[channelIndex].loaded = true;
     channelsLoaded++;
     if (channelsLoaded == channelKeys.length) {
+      
       createChart();
     }
   })
-    .fail(function () { alert('getJSON request failed! '); });
+    .fail(/*function () { alert('getJSON request failed! '); }*/);
 }
 
 // create the chart when all data is loaded
 function createChart() {
-
-
 
   // specify the chart options
   var chartOptions = {
@@ -160,7 +136,7 @@ function createChart() {
       selected: 0
     },
     title: {
-    //  text: 'TEMPERATURA AMBIENTE',
+      //  text: 'TEMPERATURA AMBIENTE',
       style: {
         color: '#000000',
         fontWeight: 'bold'
@@ -249,10 +225,10 @@ function createChart() {
   // set chart labels here so that decoding occurs properly
   //chartOptions.title.text = data.channel.name;
   chartOptions.xAxis.title.text = 'Fecha';
-
+  
   // draw the chart
   dynamicChart = new Highcharts.StockChart(chartOptions);
-
+  
   // update series number to account for the navigator series (The historical series at the bottom) which is the first series.
   for (var channelIndex = 0; channelIndex < channelKeys.length; channelIndex++)  // iterate through each channel
   {
@@ -268,7 +244,7 @@ function createChart() {
   }
 }
 
-function loadOnePoint(channelIndex,channelNumber, key, sentFieldList) {
+function loadOnePoint(channelIndex, channelNumber, key, sentFieldList) {
 
   var fieldList = sentFieldList;
   // get the Channel data with a webservice call
@@ -282,19 +258,21 @@ function loadOnePoint(channelIndex,channelNumber, key, sentFieldList) {
 
       for (var h = 0; h < data.feeds.length; h++)  // iterate through each feed (data point)
       {
-        var p = []//new Highcharts.Point();
+        var actualizacion = []
         var fieldStr = "data.feeds[" + h + "].field" + fieldList[fieldIndex].field;
         var v = eval(fieldStr);
-        p[0] = getChartDate(data.feeds[h].created_at);
+
         temperaturaActual[channelNumber] = (parseFloat(v)).toFixed(2);
         //document.querySelector('.TemperaturaActual'+channelNumber).innerHTML = "EVA-0"+(channelIndex+1)+": "+temperaturaActual[channelNumber];
-        document.querySelector('.TemperaturaActual'+channelNumber).innerHTML = temperaturaActual[channelNumber]+"°C";
-        // if a numerical value exists add it
+        document.querySelector('.TemperaturaActual' + channelNumber).innerHTML = temperaturaActual[channelNumber] + "°C";
+
+        actualizacion[channelNumber] = getFecha(data.feeds[h].created_at);
+        document.querySelector('.Actualizacion' + channelNumber).innerHTML = actualizacion[channelNumber];
       }
 
     }
 
   })
-    .fail(function () { alert('getJSON request failed! '); });
+    .fail(/*function () { alert('getJSON request failed! '); }*/);
 }
 

@@ -15,6 +15,7 @@
     <!--<script src="https://rawgithub.com/highslide-software/export-csv/master/export-csv.js"></script>-->
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script src="funciones.js"></script>
     <script src="temperatura.js"></script>
     <script src="humedad.js"></script>
     <script src="corriente.js"></script>
@@ -28,6 +29,7 @@
 
 <body>
 
+    <!-- CABECERA -->
     <div class="row col-12 cabecera">
         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
             <figure class="item">
@@ -43,7 +45,7 @@
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
             <figure class="item">
-                <img src="images/argentina.png" class="logo" />
+                <img src="images/MAPHI-1.png" class="logo" height="160px" />
 
             </figure>
         </div>
@@ -61,122 +63,194 @@
         </div>
         <div class="row col-12 item1">
             <figure class="item1">
-                <img src="images/argentina.png" class="logo" />
+                <img src="images/MAPHI-1.png" class="logo" height="160px" />
 
             </figure>
         </div>
 
     </div>
+
+    <!-- BARRA LATERAL -->
     <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="row col-lg-2 col-md-12 col-sm-12 col-xs-12 container">
 
-            <div class="card text-white bg-danger mb-3 col-lg-12 col-md-4 col-sm-6 col-xs-6 sombreado">
-                <div class="col-12 row card-body">
-                    <h4 class="col-12 card-title">
-                        <i class="fas fa-thermometer-half"> Temperatura</i>
+            <div class="card text-white bg-danger mb-3 col-lg-12 col-md-4 col-sm-6 col-xs-6 sombreado"
+                style="margin:0; padding:0;">
+                <div class="col-12 row card-body" style="margin:0; padding:0;">
+                    <h4 class="col-3 card-title" style=" display: flex;justify-content: center;align-items: center; ">
+                        <i class="fas fa-thermometer-half" style="vertical-align: middle; font-size: 5vh;"></i>
                     </h4>
-                    <div class="col-6">EVA-01<h4>
-                            <div class="card-text TemperaturaActual767976">
-                                <div class="spinner-border text-light" role="status">
+                    <div class="col-9" style="margin:0; padding:0;">
+                        <div class="col-12" style="margin:0; padding:0;">EVA-01<h4>
+                                <div class="card-text TemperaturaActual767976">
+                                    <div class="spinner-border text-light" role="status">
 
-                                    <span class="sr-only "></span>
+                                        <span class="sr-only "></span>
+                                    </div>
                                 </div>
-                            </div>
-                        </h4>
+                            </h4>
+                        </div>
+                        <div class="col-12" style="margin:0; padding:0;">
+                            EVA-02
+                            <h4>
+                                <div class="card-text TemperaturaActual767977">
+                                    <div class="spinner-border text-light" role="status">
+                                        <span class="sr-only "></span>
+                                    </div>
+                                </div>
+                            </h4>
+                        </div>
                     </div>
-                    <div class="col-6">
-                        EVA-02
+                </div>
+
+            </div>
+
+            <div class="card text-white bg-primary mb-3 col-lg-12 col-md-4 col-sm-6 col-xs-6 sombreado"
+                style="margin:0; padding:0;">
+                <div class="col-12 row card-body" style="margin:0; padding:0;">
+                    <h4 class="col-3 card-title"
+                        style=" display: flex;justify-content: center;align-items: center;  margin:0; padding:0;">
+                        <i class="fas fa-tint" style="vertical-align: middle; font-size: 5vh;"></i>
+                    </h4>
+                    <div class="col-9" style="justify-content: center;align-items: center;  margin:0; padding:0;">
+                        <div class="col-12" style="margin:0; padding:0;">EVA-01<h4>
+                                <div class="card-text HumedadActual767976">
+                                    <div class="spinner-border text-light" role="status" style="margin:0; padding:0;">
+
+                                        <span class="sr-only "></span>
+                                    </div>
+                                </div>
+                            </h4>
+                        </div>
+                        <div class="col-12" style="margin:0; padding:0; ">
+                            EVA-02
+                            <h4>
+                                <div class="card-text HumedadActual767977">
+                                    <div class="spinner-border text-light" role="status" style="margin:0; padding:0;">
+                                        <span class="sr-only "></span>
+                                    </div>
+                                </div>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card text-dark bg-warning mb-3 col-lg-12 col-md-4 col-sm-6 col-xs-6 sombreado"
+                style="margin:0; padding:0;">
+                <div class="col-12 row card-body" style="margin:0; padding:0;">
+                    <h4 class="col-3 card-title" style=" display: flex;justify-content: center;align-items: center;">
+                        <i class="far fa-lightbulb" style="vertical-align: middle; font-size: 5vh;"></i>
+                    </h4>
+                    <div class="col-9" style="margin:0; padding:0;">
+                        <div class=" col-12" style="margin:0; padding:0;">EVA-02
+                            <h4>
+                                <div class=" card-text IluminacionActual">
+                                    <div class="spinner-border text-dark" role="status">
+                                        <span class="sr-only"></span>
+                                    </div>
+                                </div>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card text-white mb-3 bg-darkslategray col-lg-12 col-md-4 col-sm-6 col-xs-6 sombreado"
+                style="margin:0; padding:0;">
+                <div class="col-12 row card-body" style="margin:0; padding:0;">
+                    <h4 class="col-3 card-title" style=" display: flex;justify-content: center;align-items: center;">
+                        <i class="fas fa-bolt" style="vertical-align: middle; font-size: 5vh;"></i>
+                    </h4>
+                    <div class="col-9" style="margin:0; padding:0;">
+                        <div class=" col-12" style="margin:0; padding:0;">EVA-04
+                            <h4>
+                                <div class=" card-text CorrienteActual">
+                                    <div class="spinner-border text-light" role="status">
+                                        <span class="sr-only"></span>
+                                    </div>
+                                </div>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card text-white bg-success mb-3 col-lg-12 col-md-4 col-sm-6 col-xs-6 sombreado"
+                style="margin:0; padding:0;">
+                <div class="col-12 row card-body" style="margin:0; padding:0;">
+                    <h4 class="col-3 card-title" style=" display: flex;justify-content: center;align-items: center;">
+                        <i class="fas fa-chart-line" style="vertical-align: middle; font-size: 5vh;"></i>
+                    </h4>
+                    <div class="col-9" style="margin:0; padding:0;">
+                        <div class=" col-12" style="margin:0; padding:0;">EVA-05
+                            <h4>
+                                <div class=" card-text TensionActual">
+                                    <div class="spinner-border text-light" role="status">
+                                        <span class="sr-only"></span>
+                                    </div>
+                                </div>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card text-white bg-yellowgreen mb-3 col-lg-12 col-md-4 col-sm-6 col-xs-6 sombreado"
+                style="margin:0; padding:0;">
+
+                <div class="col-12 row card-body" style="margin:0; padding:0;">
+                    <div class="col-3" style="margin:0; padding:0;"></div>
+                    <div class="col-9" style="margin:0; padding:0;">EVA-02</div>
+                    <h4 class="col-3 card-title" style=" display: flex;justify-content: center;align-items: center;">
+                        <div class="IconoPuerta" style="vertical-align: middle; font-size: 5vh;"></div>
+                    </h4>
+                    <div class="col-9" style="margin:0; padding:0;">
                         <h4>
-                            <div class="card-text TemperaturaActual767977">
+                            <div class=" card-text EstadoPuerta" style="font-size: 3vh !important;">
                                 <div class="spinner-border text-light" role="status">
-                                    <span class="sr-only "></span>
-                                </div>
-                            </div>
-                        </h4>
-                    </div>
-
-                </div>
-
-            </div>
-            <div class="card text-white bg-primary mb-3 col-lg-12 col-md-4 col-sm-6 col-xs-6 sombreado">
-                <div class="col-12 row card-body">
-                    <h4 class="col-12 card-title"><i class="fas fa-tint"> Humedad</i></h4>
-                    <div class="col-6">EVA-01<h4>
-                            <div class="card-text HumedadActual767976">
-                                <div class="spinner-border text-light" role="status">
-
-                                    <span class="sr-only "></span>
-                                </div>
-                            </div>
-                        </h4>
-                    </div>
-                    <div class="col-6">EVA-02<h4>
-                            <div class="card-text HumedadActual767977">
-                                <div class="spinner-border text-light" role="status">
-
-                                    <span class="sr-only "></span>
-                                </div>
-                            </div>
-                        </h4>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="card text-dark bg-warning mb-3 col-lg-12 col-md-4 col-sm-6 col-xs-6 sombreado">
-                <div class="col-12 row card-body">
-                    <h4 class="col-12 card-title"><i class="far fa-lightbulb"> Iluminación</i></h4>
-                    <div class="col-12">EVA-02<h4>
-                            <div class="card-text IluminacionActual">
-                                <div class="spinner-border text-dark" role="status">
-
                                     <span class="sr-only"></span>
                                 </div>
                             </div>
                         </h4>
                     </div>
-
-
                 </div>
             </div>
 
-            <div class="card text-white mb-3 bg-darkslategray col-lg-12 col-md-4 col-sm-6 col-xs-6 sombreado">
-                <div class="col-12 row card-body">
-                    <h4 class="col-12 card-title"><i class="fas fa-bolt"> Consumo</i></h4>
-                    <div class="col-12">EVA-04<h4>
-                            <div class="card-text CorrienteActual">
+            <div class="card text-white bg-slateblue mb-3 col-lg-12 col-md-4 col-sm-6 col-xs-6 sombreado"
+                style="margin:0; padding:0;">
+
+                <div class="col-12 row card-body" style="margin:0; padding:0;">
+                    <div class="col-3" style="margin:0; padding:0;"></div>
+                    <div class="col-9" style="margin:0; padding:0;">EVA-03</div>
+                    <h4 class="col-3 card-title" style=" display: flex;justify-content: center;align-items: center;">
+                        <div class="IconoInterruptor1" style="vertical-align: middle; font-size: 5vh;"></div>
+                    </h4>
+                    <div class="col-9" style="margin:0; padding:0;">
+                        <h4>
+                            <div class=" card-text Interruptor1" style="font-size: 3vh !important;">
                                 <div class="spinner-border text-light" role="status">
-
-                                    <span class="sr-only "></span>
-                                </div>
-                            </div>
-                        </h4>
-                    </div>
-
-                </div>
-            </div>
-
-
-            <div class="card text-white bg-success mb-3 col-lg-12 col-md-4 col-sm-6 col-xs-6 sombreado">
-                <div class="col-12 row card-body">
-                    <h4 class="col-12 card-title"><i class="fas fa-chart-line"> Tensión</i></h4>
-                    <div class="col-12">EVA-05<h4>
-                            <div class="card-text TensionActual">
-                                <div class="spinner-border text-light" role="status">
-
                                     <span class="sr-only"></span>
                                 </div>
                             </div>
                         </h4>
                     </div>
-
+                    <h4 class="col-3 card-title" style=" display: flex;justify-content: center;align-items: center;">
+                        <div class="IconoInterruptor2" style="vertical-align: middle; font-size: 5vh;"></div>
+                    </h4>
+                    <div class="col-9" style="margin:0; padding:0;">
+                        <h4>
+                            <div class=" card-text Interruptor2" style="font-size: 3vh !important;">
+                                <div class="spinner-border text-light" role="status">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                        </h4>
+                    </div>
                 </div>
             </div>
-
-
 
         </div>
-
 
         <!-- ******** graficos ********-->
         <div class="row col-lg-10 col-md-12 col-sm-12 col-xs-12 container">
@@ -184,10 +258,10 @@
             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
                 <div class='btn-danger h4 sombreado titulo-chart'><i class="fas fa-thermometer-half"> Temperatura</i>
                 </div>
-                <div class="grafico" id="chart-container">
-                    <div class="spinner-border text-dark" role="status">
+                <div class="grafico" id="chart-container"  >
+                    <div class="spinner-border text-dark" role="status" >
 
-                        <span class="sr-only"></span>
+                        <span class="sr-only" ></span>
                     </div>
                 </div>
             </div>
@@ -239,47 +313,47 @@
 
 
             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                <div class="card text-white bg-yellowgreen mb-3 sombreado">
-                    <div class="card-body">
-                        <div style=" text-align: center; ">EVA-02</div>
-                        <h4 class=" card-title">
-                            <div class="card-text EstadoPuerta">
-                                <div class="spinner-border text-white" role="status">
-                                    <span class="sr-only"></span>
-                                </div>
-                            </div>
 
-                        </h4>
+
+                <div class="card text-dark mb-3">
+                    <div class="card-body">
+
+                        <button class='btn btn-outline-danger btn-block sombreado'
+                            style="text-align: left; font-size: 14px;"><i class="fas fa-cogs">
+                                EVA-01</i> - Ultimo contacto: <i class="Actualizacion767976"></i>
+                        </button>
+                        <button class='btn btn-outline-danger btn-block sombreado'
+                            style="text-align: left; font-size: 14px;"><i class="fas fa-cogs">
+                                EVA-02</i> - Ultimo contacto: <i class="Actualizacion767977"></i>
+                        </button>
+                        <button class='btn btn-outline-danger btn-block sombreado'
+                            style="text-align: left; font-size: 14px;"><i class="fas fa-cogs">
+                                EVA-03</i> - Ultimo contacto: <i class="Actualizacion767978"></i>
+                        </button>
+                        <button class='btn btn-outline-danger btn-block sombreado'
+                            style="text-align: left; font-size: 14px;"><i class="fas fa-cogs">
+                                EVA-04</i> - Ultimo contacto: <i class="Actualizacion773580"></i>
+                        </button>
+                        <button class='btn btn-outline-danger btn-block sombreado'
+                            style="text-align: left; font-size: 14px;"><i class="fas fa-cogs">
+                                EVA-05</i> - Ultimo contacto: <i class="Actualizacion774491"></i>
+                        </button>
+
                     </div>
                 </div>
-                <div class="card text-white mb-3 bg-slateblue sombreado">
-                    <div class="card-body">
-                        <div style=" text-align: center; ">EVA-03</div>
-                        <h4 class="card-title">
-                            <div class="card-text Interruptor1">
-                                <div class="spinner-border text-white" role="status">
-                                    <span class="sr-only"></span>
-                                </div>
-                            </div>
-
-                        </h4>
-
+                <!--
+                <div class="card text-dark mb-3">
+                    <div class="card-body" style="display:block;">
+                        <button class="btn btn-outline-dark "><i class="fas fa-step-backward"
+                                style="text-align: center; font-size: 30px;"></i></button>
+                        <button class="btn btn-outline-dark "><i class="fas fa-play"
+                                style="text-align: center; font-size: 30px;"></i></button>
+                        <button class="btn btn-outline-dark"><i class="fas fa-step-forward"
+                                style="text-align: center; font-size: 30px;"></i></button>
                     </div>
-                </div>
 
-                <div class="card text-white mb-3 bg-slateblue sombreado">
-                    <div class="card-body">
-                        <div style=" text-align: center; ">EVA-03</div>
-                        <h4 class="card-title">
-                            <div class="card-text Interruptor2">
-                                <div class="spinner-border text-white" role="status">
-                                    <span class="sr-only"></span>
-                                </div>
-                            </div>
+                </div>-->
 
-                        </h4>
-                    </div>
-                </div>
             </div>
 
         </div>
@@ -291,25 +365,25 @@
         <div class="col-3">
             <figure class="item1">
                 <img src="images/inta2.jpg" class="logo" />
-              
+
             </figure>
         </div>
         <div class="col-3">
             <figure class="item1">
                 <img src="images/Logo-UNPA-UARG-azul.png" class="logo" />
-             
+
             </figure>
         </div>
         <div class="col-3">
             <figure class="item1">
                 <img src="images/LogoEstadoMayor.jpeg" class="logo" />
-             
+
             </figure>
         </div>
         <div class="col-3">
             <figure class="item1">
                 <img src="images/LogoMarambio.jpeg" class="logo" />
-            
+
             </figure>
         </div>
 
@@ -321,11 +395,18 @@
         window.onload = corriente();
         window.onload = tension();
         window.onload = iluminacion();
-        window.onload = estadoPuerta();
+        window.onload = aperturaPuerta();
         window.onload = interruptores();
 
         setInterval(function () {
-            location.reload();
+            temperatura();
+            humedad();
+            corriente();
+            tension();
+            iluminacion();
+            aperturaPuerta();
+            interruptores();
+
         }, 60000);
     </script>
 </body>

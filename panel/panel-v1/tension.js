@@ -16,32 +16,15 @@ channelKeys4.push({
 });
 
 
-// user's timezone offset
-var myOffset4 = new Date().getTimezoneOffset();
-
 var tensionActual;
 
-// converts date format from JSON
-function getChartDate(d) {
-  // get the data using javascript's date object (year, month, day, hour, minute, second)
-  // months in javascript start at 0, so remember to subtract 1 when specifying the month
-  // offset in minutes is converted to milliseconds and subtracted so that chart's x-axis is correct
-  return Date.UTC(d.substring(0, 4), d.substring(5, 7) - 1, d.substring(8, 10), d.substring(11, 13), d.substring(14, 16), d.substring(17, 19)) - (myOffset4 * 60000);
-}
 
-// Hide all series, via 'Hide All' button.  Then user can click on serries name in legent to show series of interest.      
-function HideAll4() {
-  for (var index = 0; index < dynamicChart4.series.length; index++)  // iterate through each series
-  {
-    if (dynamicChart4.series[index].name == 'Navigator')
-      continue;
-    dynamicChart4.series[index].hide();
-  }
-}
+
 
 //  This is where the chart is generated.
 function tension() {
-
+  channelsLoaded4 = 0;
+  dynamicChart4 = null;
   var last_date; // variable for the last date added to the chart
   //window.console && console.log('Testing console');
   //make series numbers for each field
@@ -75,7 +58,7 @@ function loadThingSpeakChannel4(sentChannelIndex, channelNumber, key, sentFieldL
   var fieldList = sentFieldList;
   var channelIndex = sentChannelIndex;
   // get the Channel data with a webservice call
-  $.getJSON('https://api.thingspeak.com/channels/' + channelNumber + '/feeds.json?results=1000;key=' + key, function (data) {
+  $.getJSON('https://api.thingspeak.com/channels/' + channelNumber + '/feeds.json?results=5000;key=' + key, function (data) {
     // if no access
     if (data == '-1') {
       $('#chart-container4').append('This channel is not public.  To embed charts, the channel must be public or a read key must be specified.');
@@ -103,7 +86,7 @@ function loadThingSpeakChannel4(sentChannelIndex, channelNumber, key, sentFieldL
       createChart4();
     }
   })
-    .fail(function () { alert('getJSON request failed! '); });
+  .fail(/*function () { alert('getJSON request failed! '); }*/);
 }
 
 // create the chart when all data is loaded
@@ -276,18 +259,20 @@ function loadOnePoint4( channelNumber, key, sentFieldList) {
     
       for (var h = 0; h < data.feeds.length; h++)  // iterate through each feed (data point)
       {
-        var p = []//new Highcharts.Point();
+        var actualizacion = [];
         var fieldStr = "data.feeds[" + h + "].field" + fieldList[fieldIndex].field;
         var v = eval(fieldStr);
-        p[0] = getChartDate(data.feeds[h].created_at);
+        
         tensionActual = (parseFloat(v)).toFixed(2);
         //document.querySelector('.TensionActual').innerHTML = "EVA-05: "+tensionActual;
         document.querySelector('.TensionActual').innerHTML = tensionActual+"V";
-        // if a numerical value exists add it
+        
+        actualizacion[channelNumber] = getFecha(data.feeds[h].created_at);
+        document.querySelector('.Actualizacion' + channelNumber).innerHTML = actualizacion[channelNumber];
       }
    
     }
    
   })
-    .fail(function () { alert('getJSON request failed! '); });
+  .fail(/*function () { alert('getJSON request failed! '); }*/);
 }

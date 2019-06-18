@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <link rel="stylesheet" href="estilos.css" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <!--<script src="https://www.thingspeak.com/assets/application-927d1479ab2235e91ae25cb56d33b211.js"
+     type="text/javascript"></script>-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/adaef0a336.js"></script>
+    <script src="http://code.highcharts.com/stock/highstock.js"></script>
+    <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
+    <!--<script src="https://rawgithub.com/highslide-software/export-csv/master/export-csv.js"></script>-->
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script src="temperatura.js"></script>
+    <script src="humedad.js"></script>
+    <script src="corriente.js"></script>
+    <script src="tension.js"></script>
+    <script src="iluminacion.js"></script>
+    <script src="puerta.js"></script>
+    <script src="interruptores.js"></script>
+
+    <title>ThingSpeakMultichannel</title>
+</head>
+
+<body>
+
+    <div class="row col-12 cabecera">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+            <figure class="item">
+                <img src="images/inta2.jpg" class="logo" />
+                <figcaption class="caption">Instituto Nacional de Tecnología Agropecuaria</figcaption>
+            </figure>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+            <figure class="item">
+                <img src="images/Logo-UNPA-UARG-azul.png" class="logo" />
+                <figcaption class="caption">PI 29/A425-1</figcaption>
+            </figure>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <figure class="item">
+                <img src="images/MAPHI-1.png" class="logo" />
+
+            </figure>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+            <figure class="item">
+                <img src="images/LogoEstadoMayor.jpeg" class="logo" />
+                <figcaption class="caption">Comando Conjunto Antártico</figcaption>
+            </figure>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+            <figure class="item">
+                <img src="images/LogoMarambio.jpeg" class="logo" />
+                <figcaption class="caption">Base Marambio</figcaption>
+            </figure>
+        </div>
+        <div class="row col-12 item1">
+            <figure class="item1">
+                <img src="images/MAPHI-1.png" class="logo" />
+
+            </figure>
+        </div>
+
+    </div>
+    <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="row col-lg-2 col-md-12 col-sm-12 col-xs-12 container">
+
+            <div class="card text-white bg-danger mb-3 col-lg-12 col-md-4 col-sm-6 col-xs-6 sombreado">
+                <div class="col-12 row card-body">
+                    <h4 class="col-12 card-title">
+                        <i class="fas fa-thermometer-half"> Temperatura</i>
+                    </h4>
+                    <div class="col-6">EVA-01<h4>
+                            <div class="card-text TemperaturaActual767976">
+                                <div class="spinner-border text-light" role="status">
+
+                                    <span class="sr-only "></span>
+                                </div>
+                            </div>
+                        </h4>
+                    </div>
+                    <div class="col-6">
+                        EVA-02
+                        <h4>
+                            <div class="card-text TemperaturaActual767977">
+                                <div class="spinner-border text-light" role="status">
+                                    <span class="sr-only "></span>
+                                </div>
+                            </div>
+                        </h4>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="card text-white bg-primary mb-3 col-lg-12 col-md-4 col-sm-6 col-xs-6 sombreado">
+                <div class="col-12 row card-body">
+                    <h4 class="col-12 card-title"><i class="fas fa-tint"> Humedad</i></h4>
+                    <div class="col-6">EVA-01<h4>
+                            <div class="card-text HumedadActual767976">
+                                <div class="spinner-border text-light" role="status">
+
+                                    <span class="sr-only "></span>
+                                </div>
+                            </div>
+                        </h4>
+                    </div>
+                    <div class="col-6">EVA-02<h4>
+                            <div class="card-text HumedadActual767977">
+                                <div class="spinner-border text-light" role="status">
+
+                                    <span class="sr-only "></span>
+                                </div>
+                            </div>
+                        </h4>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card text-dark bg-warning mb-3 col-lg-12 col-md-4 col-sm-6 col-xs-6 sombreado">
+                <div class="col-12 row card-body">
+                    <h4 class="col-12 card-title"><i class="far fa-lightbulb"> Iluminación</i></h4>
+                    <div class="col-12">EVA-02<h4>
+                            <div class="card-text IluminacionActual">
+                                <div class="spinner-border text-dark" role="status">
+
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                        </h4>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="card text-white mb-3 bg-darkslategray col-lg-12 col-md-4 col-sm-6 col-xs-6 sombreado">
+                <div class="col-12 row card-body">
+                    <h4 class="col-12 card-title"><i class="fas fa-bolt"> Consumo</i></h4>
+                    <div class="col-12">EVA-04<h4>
+                            <div class="card-text CorrienteActual">
+                                <div class="spinner-border text-light" role="status">
+
+                                    <span class="sr-only "></span>
+                                </div>
+                            </div>
+                        </h4>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="card text-white bg-success mb-3 col-lg-12 col-md-4 col-sm-6 col-xs-6 sombreado">
+                <div class="col-12 row card-body">
+                    <h4 class="col-12 card-title"><i class="fas fa-chart-line"> Tensión</i></h4>
+                    <div class="col-12">EVA-05<h4>
+                            <div class="card-text TensionActual">
+                                <div class="spinner-border text-light" role="status">
+
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                        </h4>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+        <!-- ******** graficos ********-->
+        <div class="row col-lg-10 col-md-12 col-sm-12 col-xs-12 container">
+
+            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
+                <div class='btn-danger h4 sombreado titulo-chart'><i class="fas fa-thermometer-half"> Temperatura</i>
+                </div>
+                <div class="grafico" id="chart-container">
+                    <div class="spinner-border text-dark" role="status">
+
+                        <span class="sr-only"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
+                <div class='btn-primary h4 sombreado titulo-chart'><i class="fas fa-tint"> Humedad Relativa</i></div>
+                <div class="grafico" id="chart-container2">
+                    <div class="spinner-border text-dark" role="status">
+
+                        <span class="sr-only"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                <div class='btn-warning h4 sombreado titulo-chart'><i class="far fa-lightbulb"> Iluminación Ambiente</i>
+                </div>
+                <div class="grafico" id="chart-container5">
+                    <div class="spinner-border text-dark" role="status">
+
+                        <span class="sr-only"></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                <div class='btn-dark bg-darkslategray h4 sombreado titulo-chart'><i class="fas fa-bolt">
+                        Consumo
+                        Eléctrico</i></div>
+                <div class="grafico" id="chart-container3">
+                    <div class="spinner-border text-dark" role="status">
+
+                        <span class="sr-only"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
+                <div class='btn-success h4 sombreado titulo-chart'><i class="fas fa-chart-line"> Tensión Monofásica</i>
+                </div>
+                <div class="grafico" id="chart-container4">
+                    <div class="spinner-border text-dark" role="status">
+
+                        <span class="sr-only"></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                <div class="card text-white bg-yellowgreen mb-3 sombreado">
+                    <div class="card-body">
+                        <div style=" text-align: center; ">EVA-02</div>
+                        <h4 class=" card-title">
+                            <div class="card-text EstadoPuerta">
+                                <div class="spinner-border text-white" role="status">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+
+                        </h4>
+                    </div>
+                </div>
+                <div class="card text-white mb-3 bg-slateblue sombreado">
+                    <div class="card-body">
+                        <div style=" text-align: center; ">EVA-03</div>
+                        <h4 class="card-title">
+                            <div class="card-text Interruptor1">
+                                <div class="spinner-border text-white" role="status">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+
+                        </h4>
+
+                    </div>
+                </div>
+
+                <div class="card text-white mb-3 bg-slateblue sombreado">
+                    <div class="card-body">
+                        <div style=" text-align: center; ">EVA-03</div>
+                        <h4 class="card-title">
+                            <div class="card-text Interruptor2">
+                                <div class="spinner-border text-white" role="status">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+
+                        </h4>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="row col-12 item">
+        <div class="col-3">
+            <figure class="item1">
+                <img src="images/inta2.jpg" class="logo" />
+              
+            </figure>
+        </div>
+        <div class="col-3">
+            <figure class="item1">
+                <img src="images/Logo-UNPA-UARG-azul.png" class="logo" />
+             
+            </figure>
+        </div>
+        <div class="col-3">
+            <figure class="item1">
+                <img src="images/LogoEstadoMayor.jpeg" class="logo" />
+             
+            </figure>
+        </div>
+        <div class="col-3">
+            <figure class="item1">
+                <img src="images/LogoMarambio.jpeg" class="logo" />
+            
+            </figure>
+        </div>
+
+    </div>
+    <script type="text/javascript">
+
+        window.onload = temperatura();
+        window.onload = humedad();
+        window.onload = corriente();
+        window.onload = tension();
+        window.onload = iluminacion();
+        window.onload = estadoPuerta();
+        window.onload = interruptores();
+
+        setInterval(function () {
+            location.reload();
+        }, 60000);
+    </script>
+</body>
+
+</html>

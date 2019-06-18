@@ -16,32 +16,15 @@ channelKeys5.push({
   fieldList: [{ field: 4, axis: 'I' }]
 });
 
-// user's timezone offset
-var myOffset5 = new Date().getTimezoneOffset();
 
 var iluminacionActual;
 
-// converts date format from JSON
-function getChartDate(d) {
-  // get the data using javascript's date object (year, month, day, hour, minute, second)
-  // months in javascript start at 0, so remember to subtract 1 when specifying the month
-  // offset in minutes is converted to milliseconds and subtracted so that chart's x-axis is correct
-  return Date.UTC(d.substring(0, 4), d.substring(5, 7) - 1, d.substring(8, 10), d.substring(11, 13), d.substring(14, 16), d.substring(17, 19)) - (myOffset5 * 60000);
-}
 
-// Hide all series, via 'Hide All' button.  Then user can click on serries name in legent to show series of interest.      
-function HideAll5() {
-  for (var index = 0; index < dynamicChart5.series.length; index++)  // iterate through each series
-  {
-    if (dynamicChart5.series[index].name == 'Navigator')
-      continue;
-    dynamicChart5.series[index].hide();
-  }
-}
 
 //  This is where the chart is generated.
 function iluminacion() {
-
+  channelsLoaded5 = 0;
+  dynamicChart5 = null;
   var last_date; // variable for the last date added to the chart
   //window.console && console.log('Testing console');
   //make series numbers for each field
@@ -76,7 +59,7 @@ function loadThingSpeakChannel5(sentChannelIndex, channelNumber, key, sentFieldL
   var fieldList = sentFieldList;
   var channelIndex = sentChannelIndex;
   // get the Channel data with a webservice call
-  $.getJSON('https://api.thingspeak.com/channels/' + channelNumber + '/feeds.json?results=1000;key=' + key, function (data) {
+  $.getJSON('https://api.thingspeak.com/channels/' + channelNumber + '/feeds.json?results=5000;key=' + key, function (data) {
     // if no access
     if (data == '-1') {
       $('#chart-container5').append('This channel is not public.  To embed charts, the channel must be public or a read key must be specified.');
@@ -104,7 +87,7 @@ function loadThingSpeakChannel5(sentChannelIndex, channelNumber, key, sentFieldL
       createChart5();
     }
   })
-    .fail(function () { alert('getJSON request failed! '); });
+    .fail(/*function () { alert('getJSON request failed! '); }*/);
 }
 
 // create the chart when all data is loaded
@@ -284,18 +267,20 @@ function loadOnePoint5( channelNumber, key, sentFieldList) {
     
       for (var h = 0; h < data.feeds.length; h++)  // iterate through each feed (data point)
       {
-        var p = []//new Highcharts.Point();
+        var actualizacion = [];
         var fieldStr = "data.feeds[" + h + "].field" + fieldList[fieldIndex].field;
         var v = eval(fieldStr);
-        p[0] = getChartDate(data.feeds[h].created_at);
+        
         iluminacionActual = (parseFloat(v)).toFixed(2);
         //document.querySelector('.IluminacionActual').innerHTML = "EVA-02: "+iluminacionActual;
         document.querySelector('.IluminacionActual').innerHTML = iluminacionActual+"%";
-        // if a numerical value exists add it
+       
+        actualizacion[channelNumber] = getFecha(data.feeds[h].created_at);
+        document.querySelector('.Actualizacion' + channelNumber).innerHTML = actualizacion[channelNumber];
       }
    
     }
    
   })
-    .fail(function () { alert('getJSON request failed! '); });
+    .fail(/*function () { alert('getJSON request failed! '); }*/);
 }

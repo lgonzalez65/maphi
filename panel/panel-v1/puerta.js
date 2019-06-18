@@ -9,9 +9,11 @@ channelKeys6.push({
 
 
 var estadoPuerta;
+var iconoPuerta;
 
-function estadoPuerta() {
+function aperturaPuerta() {
 
+  channelsLoaded6 = 0;
   var last_date; // variable for the last date added to the chart
 
   var seriesCounter = 0
@@ -41,21 +43,27 @@ function loadOnePoint6(channelNumber, key, sentFieldList) {
       window.console && console.log('Thingspeak Data Loading Error');
     }
     
+    var actualizacion = [];
         var fieldStr = "data.feeds[0].field3";
         var v = eval(fieldStr);
 
-        //p[0] = getChartDate(data.feeds[h].created_at);
+        
         if (parseInt(v) == 1) {
-          estadoPuerta = "<i class='fas fa-door-open'> Puerta Abierta</i>";
+          iconoPuerta = "<i class='fas fa-door-open' style='vertical-align: middle; font-size: 5vh;'></i>";
+          estadoPuerta = "Puerta Abierta";
         }
         else {
-          estadoPuerta = "<i class='fas fa-door-closed'> Puerta Cerrada</i>";
+          iconoPuerta = "<i class='fas fa-door-closed' style='vertical-align: middle; font-size: 5vh;'></i>";
+          estadoPuerta = "Puerta Cerrada";
         }
        
         //document.querySelector('.estadoPuerta').innerHTML = "EVA-02: "+estadoPuerta;
         document.querySelector('.EstadoPuerta').innerHTML = estadoPuerta;
-        // if a numerical value exists add it
+        document.querySelector('.IconoPuerta').innerHTML = iconoPuerta;
+       
+        actualizacion[channelNumber] = getFecha(data.feeds[0].created_at);
+        document.querySelector('.Actualizacion' + channelNumber).innerHTML = actualizacion[channelNumber];
 
   })
-    .fail(function () { alert('getJSON request failed! '); });
+  .fail(/*function () { alert('getJSON request failed! '); }*/);
 }
