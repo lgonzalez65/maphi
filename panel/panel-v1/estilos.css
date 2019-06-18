@@ -29,7 +29,12 @@
 }
 
 .logo{
-    max-height:130px;
+    max-height:15vh;
+    max-width: 100%;
+}
+
+.logo-maphi{
+    max-height:160px;
     max-width: 100%;
 }
 
@@ -94,14 +99,26 @@
 }
 
 .grafico{
-    margin-top:20px;
-    margin-bottom:20px;
+    margin-top:0px;
+    margin-bottom:0px;
     display: flex;
     justify-content: center;
     align-items: center;
+   
 }
 
 .fontawesome{
     vertical-align: middle; 
     font-size: 10vh;
+}
+
+.EstadoPuerta {
+    font-size: 0.8em;  
+}
+.Interruptor1 {
+    font-size: 0.8em;
+}
+
+.Interruptor2 {
+    font-size: 0.8em;
 }
