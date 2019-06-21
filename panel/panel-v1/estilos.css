@@ -51,21 +51,62 @@
     background-color: darkslategray !important;
 }
 
+.bg-darkslategray:hover{
+    background-color: slategray !important;
+
+}
 .bg-slateblue{
     background-color:slateblue !important;
 }
+
+.bg-slateblue:hover{
+    background-color:darkslateblue !important;
+}
+
 
 .bg-yellowgreen{
     background-color:yellowgreen !important;
 }
 
-.slateblue{
-    border-color:slateblue !important;    
+.bg-yellowgreen:hover{
+    background-color: #7ba428 !important;
 }
-.slateblue :hover{
+
+
+
+.btn-outline-slateblue{
+    border-color:slateblue !important; 
+    color: slateblue !important;
+}
+.btn-outline-slateblue:hover{
     background-color:slateblue !important;
-    border-color: white !important; 
+    color: white !important;
+    border-color: slateblue !important;    
 }
+
+.bg-danger:hover{
+    background-color: #c82333 !important;
+    border-color: #bd2130 !important;
+}
+
+.bg-primary:hover {
+    color: #fff;
+    background-color: #0069d9 !important;
+    border-color: #0062cc !important;
+}
+
+.bg-warning:hover {
+    color: #212529;
+    background-color: #e0a800 !important;
+    border-color: #d39e00 !important;
+}
+
+.bg-success:hover {
+    color: #fff;
+    background-color: #218838 !important;
+    border-color: #1e7e34 !important;
+}
+
 
 .card{
     text-align: center !important;   
@@ -93,7 +134,8 @@
     display: flex;
     justify-content: center;
     align-items: center;  
- 
+    margin:0; 
+    padding:0;
 }
 
 
@@ -130,12 +172,12 @@
 }
 
 .EstadoPuerta {
-    font-size: 0.8em;  
+    font-size: 1.5vw;  
 }
 .Interruptor1 {
-    font-size: 0.8em;
+    font-size: 1.5vw;
 }
 
 .Interruptor2 {
-    font-size: 0.8em;
+    font-size: 1.5vw;
 }

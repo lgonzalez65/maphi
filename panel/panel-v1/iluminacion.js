@@ -150,7 +150,7 @@ function createChart5() {
         fontWeight: 'bold'
     }
     },
-    colors: [  '#e0a800','#DF5353'  ],
+    colors: [ '#ffc107','#e0a800','#DF5353'  ],
     plotOptions: {
       line: {
         gapSize: 5
