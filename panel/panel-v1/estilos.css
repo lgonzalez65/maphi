@@ -1,4 +1,4 @@
-@media screen and (max-width:768px) {
+@media screen and (max-width:1000px) {
     .item {
         display: none;
     }
@@ -13,17 +13,45 @@
         display: none;
     }
 
+    .etiqueta{
+        display: none;
+    }
+
+    .card-text{
+        font-size: 4vw !important;
+    }
+
+    .row-title{
+        font-size: 3vw !important;
+    }
+    .row-contacto{
+        font-size: 3vw !important;
+    }
+    .btn{
+        font-size: 4vw !important;
+    }
+    .accion{
+        font-size: 4vw !important;
+    }
+    
+  }
+
+  @media screen and (min-width:1001px) {
+  .btn {
+    font-size: 0.8rem !important;
   }
 
   .item1{
       display: none;
       text-align: center !important;
   }
-
+}
   .pie {
     padding-bottom:10px; 
     padding-top: 10px; 
     text-align: center; 
+    height:160px;
+    max-width: 100%;
   }
 
 .cabecera{
@@ -111,21 +139,22 @@
 .card{
     text-align: center !important;   
     border-radius: 4px !important;
-
+    
 }
 
 .card-body{
     text-align: center !important;
     margin-top: 10px !important;
+
 }
 
 .card-body .div{
     text-align: center !important;
-
+ 
 }
 
 .card-text{
-    font-size: 2vw;
+    font-size: 1.6vw;
     margin:0 !important; 
     padding:0 !important;
 }
@@ -181,3 +210,4 @@
 .Interruptor2 {
     font-size: 1.5vw;
 }
+
