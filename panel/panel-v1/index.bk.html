@@ -9,7 +9,6 @@
      type="text/javascript"></script>-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/adaef0a336.js"></script>
     <script src="http://code.highcharts.com/stock/highstock.js"></script>
     <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
@@ -46,7 +45,7 @@
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
             <figure class="item">
-                <img src="images/MAPHI.png" class="logo" />
+                <img src="images/MAPHI-bak.xcf" class="logo" />
 
             </figure>
         </div>
@@ -223,43 +222,31 @@
                 style="margin:0; padding:0;">
 
                 <div class="col-12 row card-body" style="margin:0; padding:0;">
+                    <div class="col-3" style="margin:0; padding:0;"></div>
+                    <h6 class="col-9" style="margin:0; padding:0;">EVA-03</h6>
                     <h4 class="col-3 card-title" style=" display: flex;justify-content: center;align-items: center;">
                         <div class="IconoInterruptor1" style="vertical-align: middle; font-size: 5vh;"></div>
                     </h4>
                     <div class="col-9" style="margin:0; padding:0;">
-                        <h6 class="col-12" style="margin:0; padding:0;">EVA-03</h6>
-
-                        <div class="col-12" style="margin:0; padding:0;">
-                            <h4>
-                                <div class=" card-text Interruptor1">
-                                    <div class="spinner-border text-light" role="status">
-                                        <span class="sr-only"></span>
-                                    </div>
+                        <h4>
+                            <div class=" card-text Interruptor1">
+                                <div class="spinner-border text-light" role="status">
+                                    <span class="sr-only"></span>
                                 </div>
-                            </h4>
-                        </div>
+                            </div>
+                        </h4>
                     </div>
-                </div>
-            </div>
-
-            <div class="card text-white bg-slateblue mb-3 col-lg-12 col-md-4 col-sm-6 col-xs-6 sombreado"
-                style="margin:0; padding:0;">
-
-                <div class="col-12 row card-body" style="margin:0; padding:0;">
                     <h4 class="col-3 card-title" style=" display: flex;justify-content: center;align-items: center;">
                         <div class="IconoInterruptor2" style="vertical-align: middle; font-size: 5vh;"></div>
                     </h4>
                     <div class="col-9" style="margin:0; padding:0;">
-                        <h6 class="col-12" style="margin:0; padding:0;">EVA-03</h6>
-                        <div class="col-12" style="margin:0; padding:0;">
-                            <h4>
-                                <div class=" card-text Interruptor2">
-                                    <div class="spinner-border text-light" role="status">
-                                        <span class="sr-only"></span>
-                                    </div>
+                        <h4>
+                            <div class=" card-text Interruptor2">
+                                <div class="spinner-border text-light" role="status">
+                                    <span class="sr-only"></span>
                                 </div>
-                            </h4>
-                        </div>
+                            </div>
+                        </h4>
                     </div>
                 </div>
             </div>
@@ -325,92 +312,37 @@
                 </div>
             </div>
 
-            <!-- nodos -->
+
             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
 
-                <div class='btn-info btn-block h4 sombreado titulo-chart'>
-                    <i class="fas fa-microchip"> Nodos</i>
+
+                <div class="card text-dark mb-3">
+                    <div class="card-body">
+
+                        <button class='btn btn-outline-danger btn-block sombreado'
+                            style="text-align: left; font-size: 14px;"><i class="fas fa-cogs">
+                                EVA-01</i> - Ultimo contacto: <i class="Actualizacion767976"></i>
+                        </button>
+                        <button class='btn btn-outline-danger btn-block sombreado'
+                            style="text-align: left; font-size: 14px;"><i class="fas fa-cogs">
+                                EVA-02</i> - Ultimo contacto: <i class="Actualizacion767977"></i>
+                        </button>
+                        <button class='btn btn-outline-danger btn-block sombreado'
+                            style="text-align: left; font-size: 14px;"><i class="fas fa-cogs">
+                                EVA-03</i> - Ultimo contacto: <i class="Actualizacion767978"></i>
+                        </button>
+                        <button class='btn btn-outline-danger btn-block sombreado'
+                            style="text-align: left; font-size: 14px;"><i class="fas fa-cogs">
+                                EVA-04</i> - Ultimo contacto: <i class="Actualizacion773580"></i>
+                        </button>
+                        <button class='btn btn-outline-danger btn-block sombreado'
+                            style="text-align: left; font-size: 14px;"><i class="fas fa-cogs">
+                                EVA-05</i> - Ultimo contacto: <i class="Actualizacion774491"></i>
+                        </button>
+
+                    </div>
                 </div>
-
-
-                <table class="table table-sm table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nodo</th>
-                            <th scope="col">Ultimo Contacto</th>
-                            <th scope="col">Acciones</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row"><i class="fas fa-microchip"> EVA-01</i></th>
-                            <td><i class="Actualizacion767976"></i></td>
-                            <td>
-                                <i class="fas fa-power-off btn btn-outline-danger" style="font-size: 14px;"
-                                    data-toggle="tooltip" data-placement="left" title="Reiniciar Nodo"
-                                    onclick="tallback('32580','VLJJZHSNXCKZU6L0','RESTART','1')"></i>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <th scope="row"><i class="fas fa-microchip"> EVA-02</i></th>
-                            <td><i class="Actualizacion767977"></i></td>
-                            <td>
-                                <i class="fas fa-power-off btn btn-outline-danger" style="font-size: 14px;"
-                                    data-toggle="tooltip" data-placement="left" title="Reiniciar Nodo"
-                                    onclick="tallback('32582','ZX4F3WVD5L6J3LA3','RESTART','1')"></i>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <th scope="row"><i class="fas fa-microchip"> EVA-03</i></th>
-                            <td><i class="Actualizacion767978"></i></td>
-                            <td style="display:block;">
-                                <i class="fas fa-power-off btn btn-outline-danger" style="font-size: 14px;"
-                                    data-toggle="tooltip" data-placement="left" title="Reiniciar Nodo"
-                                    style="font-size: 14px;"
-                                    onclick="tallback('32609','JJYHAJHBQE0TXA3F','RESTART','1')"></i>
-                                <i class="fas fa-cogs btn btn-outline-info" style="font-size: 14px;"
-                                    data-toggle="tooltip" data-placement="left" title="Conmutar Interruptor 1"
-                                    onclick="tallback('32609','JJYHAJHBQE0TXA3F','ILUMINACION1','1')"></i>
-                                <i class="fas fa-cogs btn btn-outline-info" style="font-size: 14px;"
-                                    data-toggle="tooltip" data-placement="left" title="Conmutar Interruptor 2"
-                                    onclick="tallback('32609','JJYHAJHBQE0TXA3F','ILUMINACION2','1')"></i>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><i class="fas fa-microchip"> EVA-04</i></th>
-                            <td><i class="Actualizacion773580"></i></td>
-                            <td>
-                                <i class="fas fa-power-off btn btn-outline-danger" style="font-size: 14px;"
-                                    data-toggle="tooltip" title="Reiniciar Nodo"
-                                    onclick="tallback('32703','0EYD4QFCK6D4YJEE','RESTART','1')"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><i class="fas fa-microchip"> EVA-05</i></th>
-                            <td><i class="Actualizacion774491"></i></td>
-                            <td>
-                                <i class="fas fa-power-off btn btn-outline-danger" style="font-size: 14px;"
-                                    data-toggle="tooltip" title="Reiniciar Nodo"
-                                    onclick="tallback('32754','1B1HKZOVFVFMZ6VD','RESTART','1')"></i>
-
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="alerta">
-                </div>
-            </div>
-
-
-
-
-
-            <!--
+                <!--
                 <div class="card text-dark mb-3">
                     <div class="card-body" style="display:block;">
                         <button class="btn btn-outline-dark "><i class="fas fa-step-backward"
@@ -423,9 +355,9 @@
 
                 </div>-->
 
-        </div>
+            </div>
 
-    </div>
+        </div>
     </div>
 
 

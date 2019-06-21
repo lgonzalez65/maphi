@@ -11,6 +11,10 @@ const char * myWriteAPIKey = SECRET_WRITE_APIKEY;
 const int Relay1Pin = 4;  //D2 = GPIO4
 const int Relay2Pin = 0; // D3 = GPIO0
 
+int pasosUltimoEnvio = 0;
+int pasos = 0;
+
+
 void setup() {
   Serial.begin(115200);
 
@@ -55,7 +59,49 @@ void loop() {
     Serial.println("Estado Relay 2: HIGH");
   }  
 
-    // Create the TalkBack URI
+
+  
+ 
+  int cambios = checkCola();
+  if (cambios == 1){
+      Serial.println("Cambios detectados. Esperando tiempo de envio...10x"+String(2-pasosUltimoEnvio));
+      delay(10000*(2-pasosUltimoEnvio));
+      relay1State = digitalRead(Relay1Pin); 
+      relay2State = digitalRead(Relay2Pin); 
+      ThingSpeak.setField(1, relay1State);
+      ThingSpeak.setField(2, relay2State);
+      ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+      pasosUltimoEnvio = 0;
+      pasos = 0;
+      Serial.println("Datos enviados.");
+  } 
+  else {
+    if (pasos > 5){
+      relay1State = digitalRead(Relay1Pin); 
+      relay2State = digitalRead(Relay2Pin); 
+      ThingSpeak.setField(1, relay1State);
+      ThingSpeak.setField(2, relay2State);
+      ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+      pasosUltimoEnvio = 0;
+      pasos = 0;
+      Serial.println("Datos enviados por timeout de 60 segundos");
+    }
+    else {
+      if (pasosUltimoEnvio < 2){
+        pasosUltimoEnvio = pasosUltimoEnvio+1;
+      }
+      pasos = pasos +1;
+      Serial.println("Sin cambios");
+    }
+    Serial.println("Esperando 10 segundos..."+String(pasos));
+     delay(10000);
+  }
+}
+
+
+int checkCola(){  
+  int cambios = 0;
+   // Create the TalkBack URI
   String tbURI = String("/talkbacks/") + String(myTalkBackID) + String("/commands/execute");
   // Create the message body for the POST out of the values
   String postMessage =  String("api_key=") + String(myTalkbackKey);
@@ -76,10 +122,12 @@ void loop() {
          ESP.restart();
       }
       if (newCommand == "ILUMINACION1") {
-
+         int relay1State = digitalRead(Relay1Pin); 
+        cambios = 1;
          if (relay1State == LOW) {
            Serial.println("Conmutando Relay1 a estado: HIGH");
            digitalWrite(Relay1Pin, HIGH); 
+          
           }
           else {  
            Serial.println("Conmutando Relay1 a estado: LOW");
@@ -88,7 +136,8 @@ void loop() {
           }
       }
       if (newCommand == "ILUMINACION2") {
-
+         cambios = 1;
+          int relay2State = digitalRead(Relay2Pin); 
          if (relay2State == LOW) {
           Serial.println("Conmutando Relay2 a estado: HIGH");
            digitalWrite(Relay2Pin, HIGH); 
@@ -108,15 +157,9 @@ void loop() {
   else {
     Serial.println("Problema checkeando cola. Codigo de error HTTP " + String(x));
   }
-
-  ThingSpeak.setField(1, relay1State);
-  ThingSpeak.setField(2, relay2State);
-  ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+  return cambios;
   
-   delay(30000);
-
 }
-
 
 // General function to POST to ThingSpeak
 int httpPOST(String uri, String postMessage, String &response) {

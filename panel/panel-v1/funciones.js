@@ -20,3 +20,18 @@ function getChartDate(d) {
     return Date.UTC(d.substring(0, 4), d.substring(5, 7) - 1, d.substring(8, 10), d.substring(11, 13), d.substring(14, 16), d.substring(17, 19)) - (myOffset * 60000);
 }
 
+
+function tallback(channel, key, command, position) {
+    $.ajax({
+        url: 'https://api.thingspeak.com/talkbacks/' + channel + '/commands/',
+        type: 'POST',
+        data: { 'api_key': key, 'command_string': command, 'position': position },
+        success: function () {
+            document.querySelector('.alerta').innerHTML = "<div class='alert alert-success alert-dismissible fade show' role='alert'> Orden ejecutada correctamente.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
+        },
+        error: function () {
+            document.querySelector('.alerta').innerHTML = "<div class='alert alert-danger alert-dismissible fade show' role='alert'> No se ha podido ejecutar la orden.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
+        }
+    });
+}
+
